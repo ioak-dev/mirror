@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { PostComment, PostCommentPayload } from '../../../../types/graphql';
 import OakEditor from '../../../../oakui/OakEditor';
-import OakButton from '../../../../oakui/OakButton';
 import { UPDATE_POST_COMMENT } from '../../../Types/PostSchema';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../../Utils';
+import OakButton from '../../../../oakui/wc/OakButton';
 
 interface Props {
   postId: string;
@@ -22,10 +22,10 @@ const EditCommentItem = (props: Props) => {
     setState({ comment: props.comment?.text });
   }, [props.comment]);
 
-  const handleChange = event => {
+  const handleChange = (detail: any) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [detail.name]: detail.value,
     });
   };
 
@@ -46,7 +46,7 @@ const EditCommentItem = (props: Props) => {
         variables: {
           payload,
         },
-      }).then(response => {
+      }).then((response) => {
         if (response.data.updatePostComment.id) {
           props.closeEdit();
         }
@@ -56,17 +56,21 @@ const EditCommentItem = (props: Props) => {
 
   return (
     <>
-      <OakEditor
+      {/* <OakEditor
         data={state}
         errorData={formErrors}
         id="comment"
-        handleChange={e => handleChange(e)}
-      />
+        handleChange={(e: any) => handleChange(e)}
+      /> */}
       <div className="action-footer position-right">
-        <OakButton action={props.closeEdit} theme="default" variant="appear">
+        <OakButton
+          handleClick={props.closeEdit}
+          theme="default"
+          variant="appear"
+        >
           <i className="material-icons">close</i>Cancel
         </OakButton>
-        <OakButton action={submit} theme="primary" variant="appear">
+        <OakButton handleClick={submit} theme="primary" variant="appear">
           <i className="material-icons">double_arrow</i>Save
         </OakButton>
       </div>

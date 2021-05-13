@@ -1,57 +1,47 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import './style.scss';
+import './Links.scss';
 import { NavLink } from 'react-router-dom';
-import { Authorization } from '../Types/GeneralTypes';
+import OakButton from '../../oakui/wc/OakButton';
 
 interface Props {
-  authorization: Authorization;
-  asset: string;
+  space: string;
 }
 
 const Links = (props: Props) => {
-  return (
-    <div className="links">
-      {props.authorization.isAuth && (
-        <>
-          <NavLink
-            to={`/${props.asset}/home`}
-            className="navitem"
-            activeClassName="active"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to={`/${props.asset}/article`}
-            className="navitem"
-            activeClassName="active"
-          >
-            Articles
-          </NavLink>
-          <NavLink
-            to={`/${props.asset}/post`}
-            className="navitem"
-            activeClassName="active"
-          >
-            Forum
-          </NavLink>
+  const profile = useSelector((state: any) => state.profile);
 
-          <NavLink
-            to={`/${props.asset}/asset/view`}
-            className="navitem"
-            activeClassName="active"
-          >
-            Asset
-          </NavLink>
-          <NavLink
-            to={`/${props.asset}/mypost/mypost`}
-            className="navitem"
-            activeClassName="active"
-          >
-            My posts
-          </NavLink>
-        </>
-      )}
+  return (
+    <div className={`links ${profile.theme}`}>
+      <NavLink
+        to={`/${props.space}/home`}
+        className="navitem"
+        activeClassName="active"
+      >
+        Home
+      </NavLink>
+      <NavLink
+        to={`/${props.space}/project`}
+        className="navitem"
+        activeClassName="active"
+      >
+        Projects
+      </NavLink>
+      <NavLink
+        to={`/${props.space}/email-server`}
+        className="navitem"
+        activeClassName="active"
+      >
+        Email Servers
+      </NavLink>
+      <NavLink
+        to={`/${props.space}/template`}
+        className="navitem"
+        activeClassName="active"
+      >
+        Templates
+      </NavLink>
     </div>
   );
 };

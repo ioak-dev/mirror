@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { PostComment } from '../../../../types/graphql';
 import {
-  ADD_POST_FEEDBACK,
-  REMOVE_POST_FEEDBACK,
-  GET_POST,
   ADD_POST_COMMENT_FEEDBACK,
   REMOVE_POST_COMMENT_FEEDBACK,
 } from '../../../Types/PostSchema';
@@ -34,7 +31,7 @@ const FeedbackView = (props: Props) => {
     }
   }, [props.comment.feedback]);
 
-  const feedback = type => {
+  const feedback = (type: any) => {
     if (providedFeedbacks.includes(type)) {
       removePostCommentFeedback({
         variables: {

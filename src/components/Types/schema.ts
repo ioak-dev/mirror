@@ -42,7 +42,10 @@ export const LIST_ASSETS = gql`
     assets {
       id
       name
-      description
+      section
+      featuredTitle
+      featuredSubtitle
+      hero
       jwtPassword
       productionMode
       assetId
@@ -55,7 +58,10 @@ export const GET_ASSET = gql`
     asset(assetId: $assetId) {
       id
       name
-      description
+      section
+      featuredTitle
+      featuredSubtitle
+      hero
       jwtPassword
       productionMode
       assetId
@@ -71,7 +77,10 @@ export const CREATE_ASSET = gql`
     createAsset(payload: $payload, addition: $addition) {
       id
       name
-      description
+      section
+      featuredTitle
+      featuredSubtitle
+      hero
       jwtPassword
       productionMode
       assetId
@@ -84,7 +93,10 @@ export const UPDATE_ASSET = gql`
     updateAsset(payload: $payload) {
       id
       name
-      description
+      section
+      featuredTitle
+      featuredSubtitle
+      hero
       jwtPassword
       productionMode
       assetId

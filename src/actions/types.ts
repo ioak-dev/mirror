@@ -7,8 +7,15 @@ export const SET_PROFILE = 'SET_PROFILE';
 
 export const GET_USER = 'GET_USER';
 export const ADD_USER = 'ADD_USER';
+export const FETCH_ALL_USERS = 'FETCH_ALL_USERS';
+export const FETCH_ALL_ROLES = 'FETCH_ALL_ROLES';
+export const GET_ROLE = 'GET_ROLE';
+export const ADD_ROLE = 'ADD_ROLE';
 
 export const FETCH_CATEGORY = 'FETCH_CATEGORY';
-export const FETCH_REQUEST = 'FETCH_REQUEST';
-export const FETCH_STAGE = 'FETCH_STAGE';
-export const FETCH_ALL_USERS = 'FETCH_ALL_USERS';
+
+export const REFRESH_SPACES = 'REFRESH_SPACES';
+
+export const RELOAD_PROJECTS = 'RELOAD_PROJECTS';
+
+export const RELOAD_ENDPOINTS = 'RELOAD_ENDPOINTS';

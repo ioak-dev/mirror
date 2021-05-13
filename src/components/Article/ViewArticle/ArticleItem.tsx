@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import OakPrompt from '../../../oakui/OakPrompt';
+import { useMutation } from '@apollo/client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLinkComposer';
 import { Article } from '../../../types/graphql';
 import OakViewer from '../../../oakui/OakViewer';
-import TagContainer from './TagContainer';
 import { DELETE_ARTICLE } from '../../Types/ArticleSchema';
-import OakHeading from '../../../oakui/OakHeading';
+
+import './ArticleItem.scss';
+import ArticleMeta from '../ArticleMeta';
+import { toHtml, toText } from '../../../oakui/OakEditor/OakEditorService';
+import OakClickArea from '../../../oakui/wc/OakClickArea';
 
 interface Props {
   id: string;
@@ -46,44 +51,28 @@ const ArticleItem = (props: Props) => {
     });
   };
 
-  const getHeadingLinks = () => {
-    const links: any[] = [];
-    if (props.history.length > 2) {
-      links.push({
-        label: 'Go back',
-        icon: 'reply',
-        action: () => goBack(),
-      });
-    }
-    links.push({ label: 'Edit', icon: 'edit', action: () => editArticle() });
-    links.push({
-      label: 'Delete',
-      icon: 'delete_outline',
-      action: () => deleteArticlePrompt(),
-    });
-    return links;
-  };
-
   return (
     <>
       <div className="view-article-item">
-        <OakHeading
-          title={props.article.title || ''}
-          links={getHeadingLinks()}
-          linkSize="large"
-        />
-        <TagContainer
-          tags={props.article.tags || []}
-          history={props.history}
-          asset={props.asset}
-        />
-        <OakViewer>{props.article.description}</OakViewer>
+        <OakViewer>{toHtml(props.article.title)}</OakViewer>
+        <div className="view-article-item__meta">
+          <ArticleMeta article={props.article} show={['date', 'views']} />
+          <OakClickArea handleClick={editArticle}>
+            <div
+              className={linkCompose({
+                baseClass: 'view-article-item__meta__edit',
+                color: 'primary',
+                block: false,
+                underline: 'hover',
+              })}
+            >
+              <FontAwesomeIcon icon={faPencilAlt} />
+              Edit
+            </div>
+          </OakClickArea>
+        </div>
+        <OakViewer>{toHtml(props.article.description)}</OakViewer>
       </div>
-      <OakPrompt
-        action={() => deleteArticledata()}
-        visible={confirmDelete}
-        toggleVisibility={() => setConfirmDelete(!confirmDelete)}
-      />
     </>
   );
 };

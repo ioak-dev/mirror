@@ -1,0 +1,30 @@
+.landing-category-section {
+  max-width: 1000px;
+  margin: auto;
+  margin-bottom: 30px;
+  padding: 100px 30px;
+  font-family: 'Open Sans', sans-serif;
+}
+.landing-category-section__title {
+  margin-bottom: 60px;
+  font-family: 'Merriweather', serif;
+  font-size: 34px;
+  line-height: 44px;
+  text-align: center;
+}
+.landing-category-section__title--size-small {
+  font-size: 30px;
+  line-height: 40px;
+}
+.landing-category-section__title--size-large {
+  font-size: 40px;
+  line-height: 50px;
+}
+.landing-category-section__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  column-gap: 30px;
+  row-gap: 30px;
+}

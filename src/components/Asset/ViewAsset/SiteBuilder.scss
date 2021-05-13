@@ -1,0 +1,6 @@
+.site-builder,
+.site-builder__section {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 30px;
+}

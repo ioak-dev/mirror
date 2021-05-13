@@ -1,58 +1,92 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { isEmptyOrSpaces } from '../../../components/Utils';
+import TagSection from './ArticlesByTag/TagSection';
 import './style.scss';
-import OakButton from '../../../oakui/OakButton';
-import OakHeading from '../../../oakui/OakHeading';
-import OakPage from '../../../oakui/OakPage';
-import OakSection from '../../../oakui/OakSection';
+import ListView from './ListView';
+import SearchSection from './SearchSection';
+import Divider from '../../ui/display/Divider';
+import InfoSection from './InfoSection';
+import CategorySection from './CategorySection';
 
 interface Props {
-  setProfile: Function;
-  profile: any;
   match: any;
   location: any;
   history: any;
   asset: string;
+  cookies: any;
 }
 
+const queryString = require('query-string');
+
 const ArticleHome = (props: Props) => {
-  const browseArticle = event => {
-    props.history.push(`/${props.asset}/article/browse`);
+  const [urlParam, setUrlParam] = useState({
+    text: '',
+    tag: '',
+    categoryId: '',
+  });
+
+  useEffect(() => {
+    setUrlParam(queryString.parse(props.location.search));
+  }, [props.location.search]);
+
+  const handleTagChange = (tag: any) => {
+    updateRoute({ ...urlParam, tag: tag.name, text: '', categoryId: '' });
   };
 
-  const searchArticle = event => {
-    props.history.push(`/${props.asset}/article/search`);
+  const handleCategoryChange = (categoryId: any) => {
+    updateRoute({ ...urlParam, tag: '', text: '', categoryId });
   };
 
-  const viewByTags = event => {
-    props.history.push(`/${props.asset}/article/tag`);
+  const search = (text: string) => {
+    updateRoute({ ...urlParam, text, tag: '', categoryId: '' });
+  };
+
+  const updateRoute = (routeParams: {
+    tag: string;
+    text: string;
+    categoryId: string;
+  }) => {
+    let newRoute = `/${props.asset}/article`;
+    if (!isEmptyOrSpaces(routeParams.text)) {
+      newRoute += `?text=${routeParams.text}`;
+    } else if (!isEmptyOrSpaces(routeParams.tag)) {
+      newRoute += `?tag=${routeParams.tag}`;
+    } else if (!isEmptyOrSpaces(routeParams.categoryId)) {
+      newRoute += `?categoryId=${routeParams.categoryId}`;
+    }
+    props.history.push(newRoute);
   };
 
   return (
-    <OakPage>
-      <OakSection>
-        <OakHeading
-          title="Article knowledge base"
-          subtitle="Home of knowledge"
-        />
-        <div className="typography-4 space-bottom-4">
-          Welcome to the world of knowledge. Here you will find articles that
-          will answer the question on your mind about this application. You can
-          access the articles by different means. Start to explore by picking
-          one of the below choices to navigate and reach your desired article.
+    <>
+      <div className="two-sided-page article-home">
+        <div className="article-home__left">
+          <InfoSection urlParam={urlParam} asset={props.asset} />
+          <ListView
+            asset={props.asset}
+            history={props.history}
+            location={props.location}
+            match={props.match}
+            urlParam={urlParam}
+          />
         </div>
-        <div className="action-header">
-          <OakButton theme="primary" variant="appear" action={searchArticle}>
-            Search article
-          </OakButton>
-          <OakButton theme="primary" variant="appear" action={browseArticle}>
-            Browse by category
-          </OakButton>
-          <OakButton theme="primary" variant="appear" action={viewByTags}>
-            View by tags
-          </OakButton>
+        <div className="two-sided-page__right article-home__right">
+          <SearchSection handleSubmit={search} />
+          <Divider />
+          <TagSection
+            asset={props.asset}
+            history={props.history}
+            handleClick={handleTagChange}
+          />
+          <Divider />
+          <CategorySection
+            asset={props.asset}
+            history={props.history}
+            handleClick={handleCategoryChange}
+          />
         </div>
-      </OakSection>
-    </OakPage>
+      </div>
+    </>
   );
 };
 

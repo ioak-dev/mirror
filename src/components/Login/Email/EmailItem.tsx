@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
-import OakText from '../../../oakui/OakText';
-import OakButton from '../../../oakui/OakButton';
+import { useApolloClient } from '@apollo/client';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../Utils';
 import { NEW_EMAIL_SESSION } from '../../Types/schema';
 import './style.scss';
-import OakHeading from '../../../oakui/OakHeading';
+import OakButton from '../../../oakui/wc/OakButton';
+import OakInput from '../../../oakui/wc/OakInput';
 
 interface Props {
   history: any;
@@ -25,14 +24,14 @@ const EmailItem = (props: Props) => {
   // Temporary until email functionality is implemented
   const [token, setToken] = useState('');
 
-  const handleChange = event => {
+  const handleChange = (detail: any) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [detail.name]: detail.value,
     });
   };
 
-  const login = async event => {
+  const login = async (event: any) => {
     event.preventDefault();
     const errorFields: any = { email: '' };
 
@@ -70,10 +69,9 @@ const EmailItem = (props: Props) => {
       {isTokenSent && (
         <>
           <div className="page-header">
-            <OakHeading
-              title="Email authentication"
-              subtitle="You will receive an authentication token to your email"
-            />
+            Email authentication
+            <br />
+            You will receive an authentication token to your email
           </div>
           <div className="typhography-4 hyperlink-inline">
             Authentication token is generated and sent to your email. You can
@@ -88,17 +86,16 @@ const EmailItem = (props: Props) => {
       {!isTokenSent && (
         <>
           <div className="page-header">
-            <OakHeading
-              title="Email authentication"
-              subtitle="You will receive an authentication token to your email"
-            />
+            Email authentication
+            <br />
+            You will receive an authentication token to your email
             <div className="action-header position-right">
-              <OakButton action={login} theme="primary" variant="appear">
+              <OakButton handleClick={login} theme="primary" variant="appear">
                 <i className="material-icons">double_arrow</i>Submit
               </OakButton>
               {props.history.length > 2 && (
                 <OakButton
-                  action={() => cancelLogin()}
+                  handleClick={() => cancelLogin()}
                   theme="default"
                   variant="appear"
                 >
@@ -108,12 +105,11 @@ const EmailItem = (props: Props) => {
             </div>
           </div>
           <form method="GET" onSubmit={login} noValidate>
-            <OakText
+            <OakInput
               label="Email"
-              data={state}
-              errorData={formErrors}
-              id="email"
-              handleChange={e => handleChange(e)}
+              value={state.email}
+              name="email"
+              handleChange={handleChange}
             />
           </form>
           <div className="email-login-footer">

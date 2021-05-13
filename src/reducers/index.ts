@@ -2,15 +2,13 @@ import { combineReducers } from 'redux';
 import AuthReducer from './AuthReducer';
 import ProfileReducer from './ProfileReducer';
 import UserReducer from './UserReducer';
-import CategoryReducer from './CategoryReducer';
-import RequestReducer from './RequestReducer';
-import StageReducer from './StageReducer';
+import RoleReducer from './RoleReducer';
+import SpaceReducer from './SpaceReducer';
 
 export default combineReducers({
   authorization: AuthReducer,
   profile: ProfileReducer,
   user: UserReducer,
-  category: CategoryReducer,
-  request: RequestReducer,
-  stage: StageReducer,
+  role: RoleReducer,
+  space: SpaceReducer,
 });

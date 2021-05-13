@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import { useSelector, useDispatch } from 'react-redux';
 import { addAuth } from '../../actions/AuthActions';
 import { Authorization } from '../Types/GeneralTypes';
@@ -7,7 +7,6 @@ import { sendMessage } from '../../events/MessageService';
 import { GET_SESSION } from '../Types/schema';
 
 interface Props {
-  authorization: Authorization;
   path?: string;
   render?: any;
   component: any;
@@ -19,12 +18,12 @@ interface Props {
 
 const OakRouteGraph = (props: Props) => {
   const gqlClient = useApolloClient();
-  const authorization = useSelector(state => state.authorization);
-  const profile = useSelector(state => state.profile);
+  const authorization = useSelector((state: any) => state.authorization);
+  const profile = useSelector((state: any) => state.profile);
   const dispatch = useDispatch();
 
   const middlewares = () => {
-    props.middleware?.forEach(middlewareName => {
+    props.middleware?.forEach((middlewareName) => {
       if (!runMidleware(middlewareName)) {
         return false;
       }
@@ -32,7 +31,7 @@ const OakRouteGraph = (props: Props) => {
     return true;
   };
 
-  const runMidleware = middlewareName => {
+  const runMidleware = (middlewareName: string) => {
     sendMessage('spaceChange', true, '');
     switch (middlewareName) {
       case 'readAuthentication':
@@ -53,7 +52,7 @@ const OakRouteGraph = (props: Props) => {
     return authenticate('asset', false);
   };
 
-  const authenticate = async (type, redirect = true) => {
+  const authenticate = async (type: string, redirect = true) => {
     sendMessage('spaceChange', true, props.match.params.asset);
     if (authorization.isAuth) {
       return true;
@@ -102,7 +101,7 @@ const OakRouteGraph = (props: Props) => {
     return false;
   };
 
-  const redirectToLogin = asset => {
+  const redirectToLogin = (asset: string) => {
     // window.location.href = `${process.env.REACT_APP_ONEAUTH_URL}/#/space/${spaceId}/login?type=signin&appId=${process.env.REACT_APP_ONEAUTH_APP_ID}`;
     props.history.push(
       `/${asset}/login/home?from=${props.history.location.pathname}${props.history.location.search}`

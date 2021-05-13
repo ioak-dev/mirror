@@ -1,7 +1,13 @@
+.view-article__container__tags {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
 .view-article-item {
   display: grid;
   grid-auto-flow: row;
-  row-gap: 20px;
+  // row-gap: 20px;
 }
 
 .tag-container {
@@ -20,7 +26,8 @@
   border-radius: 100px;
   border: 1px solid var(--color-foreground-3);
   color: var(--color-foreground-1);
-  font-family: 'Source Sans Pro', sans-serif;
+  // font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Raleway', sans-serif;
   // text-transform: uppercase;
   // font-weight: 600;
   font-size: 0.875rem;

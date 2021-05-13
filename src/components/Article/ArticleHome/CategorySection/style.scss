@@ -1,0 +1,18 @@
+.category-section__header__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-section__header__container__action__icon {
+  cursor: pointer;
+  transition: color 250ms ease-in-out;
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.category-section__content__list__item {
+  list-style: none;
+}

@@ -1,0 +1,96 @@
+.full-image-content-centered {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+// .full-image-content-centered__img {
+//   width: 100%;
+//   height: 100vh;
+//   object-fit: cover;
+// }
+.full-image-content-centered--parallax {
+  background-attachment: fixed;
+  background-position: 50%;
+}
+.full-image-content-centered__container {
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  grid-auto-flow: row;
+  min-height: 100vh;
+}
+.full-image-content-centered__container--align-bottom-left,
+.full-image-content-centered__container--align-bottom-middle {
+  align-content: flex-end;
+}
+.full-image-content-centered__container--align-left,
+.full-image-content-centered__container--align-bottom-left {
+  justify-content: flex-start;
+  justify-items: flex-start;
+  padding-left: 60px;
+}
+.full-image-content-centered__container--overlay-ultralow {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.full-image-content-centered__container--overlay-low {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.full-image-content-centered__container--overlay-moderate {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.full-image-content-centered__container--overlay-heavy {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.full-image-content-centered__container--overlay-intense {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.full-image-content-centered__content {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 20px;
+}
+.full-image-content-centered__content--align-left,
+.full-image-content-centered__content--align-bottom-left {
+  text-align: left;
+}
+.full-image-content-centered__content__title {
+  font-size: 42px;
+  line-height: 52px;
+  font-family: 'Merriweather', serif;
+}
+.full-image-content-centered__content__subtitle {
+  font-size: 18px;
+  line-height: 28px;
+}
+.full-image-content-centered__content__title--size-small {
+  font-size: 36px;
+  line-height: 46px;
+}
+.full-image-content-centered__content__title--size-large {
+  font-size: 48px;
+  line-height: 58px;
+}
+.full-image-content-centered__content__subtitle--size-small {
+  font-size: 16px;
+  line-height: 26px;
+}
+.full-image-content-centered__content__subtitle--size-large {
+  font-size: 20px;
+  line-height: 30px;
+}
+.full-image-content-centered__action {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 30px;
+  margin-top: 20px;
+}
+.full-image-content-centered__action--align-bottom-left,
+.full-image-content-centered__action--align-bottom-middle {
+  margin-bottom: 30px;
+}

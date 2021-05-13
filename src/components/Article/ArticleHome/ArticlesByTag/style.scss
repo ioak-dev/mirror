@@ -1,13 +1,3 @@
-.tag-section {
-  display: grid;
-  grid-template-columns: auto auto;
-  row-gap: 20px;
-  @media (max-width: 767px) {
-    display: grid;
-    grid-template-columns: auto;
-  }
-}
-
 .tag-link {
   display: grid;
   grid-auto-flow: column;

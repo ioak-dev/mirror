@@ -1,0 +1,22 @@
+.category-item-edit__form__action__container {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 12px;
+}
+
+.category-item-edit__form__action {
+  cursor: pointer;
+  transition: color 250ms ease-in-out;
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.category-item-edit__form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}

@@ -1,99 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
+import { HashRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { InMemoryCache } from 'apollo-boost';
 import ApolloClient from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { Route } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+
+import Chart from 'chart.js';
+
 import './style.scss';
-import { HashRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import { withCookies } from 'react-cookie';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Home from '../Home';
-import OaLogin from '../Auth/OaLogin';
-import Landing from '../Landing';
-import { getUser, addUser } from '../../actions/UserActions';
-import { getProfile, setProfile } from '../../actions/ProfileActions';
-
 import Notification from '../Notification';
-import Navigation from '../Navigation';
-import { Authorization } from '../Types/GeneralTypes';
-import Tenant from '../Tenant';
-import ArticleHome from '../Article/ArticleHome';
-import OakRouteGraph from '../Auth/OakRouteGraph';
-import Unauthorized from '../Auth/Unauthorized';
-import CreateArticle from '../Article/CreateArticle';
-import ViewArticle from '../Article/ViewArticle';
-import EditArticle from '../Article/EditArticle';
-import BrowseArticle from '../Article/ArticleHome/BrowseArticle';
-import SearchArticle from '../Article/ArticleHome/SearchArticle';
-import ArticlesByTag from '../Article/ArticleHome/ArticlesByTag';
-import CreateAsset from '../Asset/CreateAsset/index';
-import ViewAsset from '../Asset/ViewAsset/index';
-import EditAsset from '../Asset/EditAsset';
-import OneAuth from '../Login/OneAuth/index';
-import Email from '../Login/Email/index';
-import Login from '../Login/index';
-import ExternLogin from '../Auth/ExternLogin';
+import { fetchAllSpaces } from '../../actions/SpaceActions';
+import Init from './Init';
+import TopbarContainer from './TopbarContainer';
+import SidebarContainer from './SidebarContainer';
+import BodyContainer from './BodyContainer';
 import { receiveMessage } from '../../events/MessageService';
-import EditPost from '../Post/EditPost';
-import CreatePost from '../Post/CreatePost';
-import ViewPost from '../Post/ViewPost';
-import PostsByTag from '../Post/PostHome/PostsByTag';
-import SearchPost from '../Post/PostHome/SearchPost';
-import BrowsePost from '../Post/PostHome/BrowsePost';
-import PostHome from '../Post/PostHome';
-import AssetCreateSuccess from '../Asset/CreateAsset/AssetCreateSuccess';
-import MyPosts from '../Post/MyPosts/index';
-
-const themes = {
-  themecolor1: getTheme('#69A7BF'),
-  themecolor2: getTheme('#99587B'),
-  themecolor3: getTheme('#A66C26'),
-  themecolor4: getTheme('#37AE82'),
-};
-
-function getTheme(color: string) {
-  return createMuiTheme({
-    palette: {
-      primary: {
-        main: color,
-      },
-      secondary: {
-        main: color,
-      },
-    },
-  });
-}
+import OakNotification from '../../oakui/wc/OakNotification';
+import OakAppLayout from '../../oakui/wc/OakAppLayout';
+import { setProfile } from '../../actions/ProfileActions';
+import NavigationContainer from './NavigationContainer';
+import MakeNavBarTransparentCommand from '../../events/MakeNavBarTransparentCommand';
+import HideNavBarCommand from '../../events/HideNavBarCommand';
 
 interface Props {
-  getProfile: Function;
-  setProfile: Function;
-  getAuth: Function;
-  addAuth: Function;
-  removeAuth: Function;
-  getUser: Function;
-  addUser: Function;
   cookies: any;
-
-  // event: PropTypes.object,
-  profile: any;
-  authorization: Authorization;
 }
 
 const Content = (props: Props) => {
-  const authorization = useSelector(state => state.authorization);
+  const profile = useSelector((state: any) => state.profile);
+  const authorization = useSelector((state: any) => state.authorization);
+  const dispatch = useDispatch();
+  const [usingMouse, setUsingMouse] = useState(false);
   const [asset, setAsset] = useState('');
+  const [transparentNav, setTransparentNav] = useState(false);
+  const [hideNav, setHideNav] = useState(false);
 
   useEffect(() => {
-    receiveMessage().subscribe(event => {
+    receiveMessage().subscribe((event) => {
       if (event.name === 'spaceChange') {
         setAsset(event.data);
       }
     });
+  }, []);
+
+  useEffect(() => {
+    MakeNavBarTransparentCommand.asObservable().subscribe((message) => {
+      setTransparentNav(message);
+    });
+    HideNavBarCommand.asObservable().subscribe((message) => {
+      setHideNav(message);
+    });
+    receiveMessage().subscribe((message) => {
+      if (message.name === 'usingMouse') {
+        setUsingMouse(message.signal);
+      }
+    });
+
+    dispatch(fetchAllSpaces());
   }, []);
 
   const httpLink = createHttpLink({
@@ -109,397 +77,73 @@ const Content = (props: Props) => {
     };
   });
 
-  const client = new ApolloClient({
+  const client: any = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 
   useEffect(() => {
-    props.getProfile();
-  }, []);
+    Chart.defaults.global.defaultFontColor =
+      profile.theme === 'theme_dark' ? '#e0e0e0' : '#626262';
+  }, [profile]);
+
+  const handleClose = (detail: any) => {
+    switch (detail.name) {
+      case 'left':
+        dispatch(setProfile({ ...profile, sidebar: !detail.value }));
+        break;
+      case 'right':
+        dispatch(setProfile({ ...profile, rightSidebar: !detail.value }));
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <ApolloProvider client={client}>
-      <div
-        className={`App ${props.profile.theme} ${props.profile.textSize} ${props.profile.themeColor}`}
-      >
+      <div className={`App ${profile.theme} ${profile.textSize}`}>
         <HashRouter>
-          <div className="body">
-            <div className="body-content">
-              <Notification />
-              <MuiThemeProvider theme={themes.themecolor1}>
-                <Navigation {...props} />
-                <Route
-                  path="/login"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={OaLogin}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/unauthorized"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Unauthorized}
-                      middleware={['isAuthenticated']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Landing}
-                    />
-                  )}
-                />
-                <Route
-                  path="/home"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Landing}
-                    />
-                  )}
-                />
-                <Route
-                  path="/tenant"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Tenant}
-                    />
-                  )}
-                />
-                <Route
-                  path="/asset/create"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={CreateAsset}
-                    />
-                  )}
-                />
-                <Route
-                  path="/asset/summary"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={AssetCreateSuccess}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/home"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Home}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/login/home"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Login}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/login/extern"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={ExternLogin}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/login/oa"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={OneAuth}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/login/email"
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Email}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                {/* Article URLs */}
-                <Route
-                  path="/:asset/article"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={ArticleHome}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/article/browse"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={BrowseArticle}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/article/search"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={SearchArticle}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/article/tag"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={ArticlesByTag}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
+          <Init />
+          {/* <Notification /> */}
+          {/* <OakNotification
+            indicator="fill"
+            outlined
+            rounded
+            elevation={5}
+            displayCount={5}
+          /> */}
 
-                <Route
-                  path="/:asset/article/view"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={ViewArticle}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/article/create"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={CreateArticle}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/article/edit"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={EditArticle}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-
-                {/* Post URLs */}
-                <Route
-                  path="/:asset/post"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={PostHome}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/post/browse"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={BrowsePost}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/post/search"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={SearchPost}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/post/tag"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={PostsByTag}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-
-                <Route
-                  path="/:asset/post/view"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={ViewPost}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/post/create"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={CreatePost}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/post/edit"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={EditPost}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/mypost/mypost"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={MyPosts}
-                      middleware={['authenticate']}
-                    />
-                  )}
-                />
-
-                <Route
-                  path="/:asset/asset/view"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={ViewAsset}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset/asset/edit"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={EditAsset}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-                <Route
-                  path="/:asset"
-                  exact
-                  render={propsLocal => (
-                    <OakRouteGraph
-                      {...propsLocal}
-                      {...props}
-                      component={Home}
-                      middleware={['readAuthentication']}
-                    />
-                  )}
-                />
-              </MuiThemeProvider>
+          <OakAppLayout
+            topbarVariant="none"
+            sidebarVariant="none"
+            topbarColor="custom"
+            topbarElevation={0}
+            sidebarElevation={2}
+            sidebarToggleIconVariant="chevron"
+          >
+            <div slot="sidebar">
+              <SidebarContainer />
             </div>
-          </div>
+            <div slot="toolbar">
+              <TopbarContainer cookies={props.cookies} />
+            </div>
+            <div slot="main">
+              {/* <TopbarContainer cookies={props.cookies} /> */}
+              {!hideNav && (
+                <NavigationContainer
+                  cookies={props.cookies}
+                  asset={asset}
+                  transparent={transparentNav}
+                />
+              )}
+              <BodyContainer {...props} />
+            </div>
+          </OakAppLayout>
         </HashRouter>
       </div>
     </ApolloProvider>
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  user: state.user,
-  profile: state.profile, // ,
-  //   event: state.event
-});
-
-export default connect(mapStateToProps, {
-  getProfile,
-  setProfile,
-  getUser,
-  addUser,
-})(withCookies(Content));
+export default withCookies(Content);

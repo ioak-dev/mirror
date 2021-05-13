@@ -1,0 +1,22 @@
+.article-link__title {
+  // margin-bottom: 10px;
+}
+.article-link__title__a {
+  color: var(--color-2);
+}
+.article-link__description {
+  color: var(--color-1);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.article-link__more__a {
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  justify-content: flex-start;
+  column-gap: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--color-1);
+}

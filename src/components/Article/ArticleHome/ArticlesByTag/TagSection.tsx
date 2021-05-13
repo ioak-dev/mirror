@@ -1,15 +1,14 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import './style.scss';
+import { useQuery } from '@apollo/client';
+import { compose as typographyCompose } from '@oakui/core-stage/style-composer/OakTypographyComposer';
+import './TagSection.scss';
 import { ARTICLE_TAG_CLOUD } from '../../../Types/ArticleSchema';
-import TagLink from './TagLink';
-import OakHeading from '../../../../oakui/OakHeading';
-import OakSection from '../../../../oakui/OakSection';
+import Tag from '../../../ui/tag/Tag';
 
 interface Props {
-  handleChange: Function;
   history: any;
   asset: string;
+  handleClick: any;
 }
 
 const TagSection = (props: Props) => {
@@ -17,26 +16,25 @@ const TagSection = (props: Props) => {
     fetchPolicy: 'cache-and-network',
   });
 
-  const searchArticle = () => {
-    props.history.push(`/${props.asset}/article/search`);
-  };
-
   return (
-    <OakSection>
-      <OakHeading
-        title="Articles by tag"
-        links={[{ label: 'Or Search instead', action: () => searchArticle() }]}
-      />
+    <>
+      <h4
+        className={`sidepane-section-title ${typographyCompose({
+          variant: 'h4',
+        })}`}
+      >
+        Labels
+      </h4>
       <div className="tag-section">
-        {data?.articleTagCloud?.map(item => (
-          <TagLink
+        {data?.articleTagCloud?.map((item: any) => (
+          <Tag
             key={item.name}
-            tag={item}
-            handleClick={() => props.handleChange(item.name)}
+            tag={item.name}
+            handleClick={() => props.handleClick(item)}
           />
         ))}
       </div>
-    </OakSection>
+    </>
   );
 };
 

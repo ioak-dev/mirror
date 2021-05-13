@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 import './style.scss';
 import ArticleItem from './ArticleItem';
 import { GET_ARTICLE } from '../../Types/ArticleSchema';
-import OakButton from '../../../oakui/OakButton';
 import FeedbackView from './FeedbackView';
-import OakSpinner from '../../../oakui/OakSpinner';
-import OakPage from '../../../oakui/OakPage';
-import OakSection from '../../../oakui/OakSection';
 import CommentSection from '../ArticleHome/CommentSection';
+import ArticleMeta from '../ArticleMeta';
 
 interface Props {
   location: any;
   history: any;
   asset: string;
+  cookies: any;
 }
 
 const queryString = require('query-string');
@@ -33,28 +30,33 @@ const ViewArticle = (props: Props) => {
   }, [props.location.search]);
 
   return (
-    <OakPage>
-      <OakSection>
-        {loading && <OakSpinner />}
-        {!loading && !error && (
-          <>
-            <ArticleItem
-              history={props.history}
-              id={urlParam.id}
-              asset={props.asset}
-              article={data.article}
-            />
-            <FeedbackView article={data.article} />
-          </>
-        )}
-        {error && <div className="typography-6">Article does not exist</div>}
-      </OakSection>
-      <OakSection>
-        <div className="comment-section-wrapper">
-          <CommentSection postId={urlParam.id} />
+    <>
+      <div className="view-article one-sided-page">
+        <div className="view-article__container one-sided-page__container">
+          {/* {loading && <OakSpinner />} */}
+          {!loading && !error && (
+            <>
+              <ArticleItem
+                history={props.history}
+                id={urlParam.id}
+                asset={props.asset}
+                article={data.article}
+              />
+              {data.article.tags && data.article.tags.length > 0 && (
+                <div className="view-article__container__tags">
+                  <ArticleMeta article={data.article} show={['tags']} />
+                </div>
+              )}
+              <FeedbackView article={data.article} />
+            </>
+          )}
+          {error && <div>Article does not exist</div>}
+          <div className="comment-section-wrapper">
+            <CommentSection postId={urlParam.id} />
+          </div>
         </div>
-      </OakSection>
-    </OakPage>
+      </div>
+    </>
   );
 };
 

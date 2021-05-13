@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import OakButton from '../../../oakui/OakButton';
-import OakText from '../../../oakui/OakText';
+import OakButton from '../../../oakui/wc/OakButton';
+import OakInput from '../../../oakui/wc/OakInput';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../Utils';
-import OakHeading from '../../../oakui/OakHeading';
 
 interface Props {
   history: any;
@@ -29,14 +28,14 @@ const TokenItem = (props: Props) => {
     }
   }, [props.queryParam]);
 
-  const handleChange = event => {
+  const handleChange = (detail: any) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [detail.name]: detail.value,
     });
   };
 
-  const login = event => {
+  const login = (event: any) => {
     event.preventDefault();
     const errorFields: any = { token: '' };
 
@@ -58,17 +57,16 @@ const TokenItem = (props: Props) => {
   return (
     <>
       <div className="page-header">
-        <OakHeading
-          title="Email authentication"
-          subtitle="You would have received an authentication token in your email"
-        />
+        Email authentication
+        <br />
+        You would have received an authentication token in your email
         <div className="action-header position-right">
-          <OakButton action={login} theme="primary" variant="appear">
+          <OakButton handleClick={login} theme="primary" variant="appear">
             <i className="material-icons">double_arrow</i>Submit
           </OakButton>
           {props.history.length > 2 && (
             <OakButton
-              action={() => cancelLogin()}
+              handleClick={() => cancelLogin()}
               theme="default"
               variant="appear"
             >
@@ -78,12 +76,11 @@ const TokenItem = (props: Props) => {
         </div>
       </div>
       <form method="GET" onSubmit={login} noValidate>
-        <OakText
+        <OakInput
           label="Token"
-          data={state}
-          errorData={formErrors}
-          id="token"
-          handleChange={e => handleChange(e)}
+          value={state.token}
+          name="token"
+          handleInput={handleChange}
         />
       </form>
       <div className="email-login-footer">

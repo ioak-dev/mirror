@@ -1,234 +1,129 @@
 import React, { useState, useEffect } from 'react';
-import { gql } from 'apollo-boost';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import OakText from '../../../oakui/OakText';
+import { useMutation, useQuery } from '@apollo/client';
 import OakEditor from '../../../oakui/OakEditor';
-import OakButton from '../../../oakui/OakButton';
-import { isEmptyOrSpaces, isEmptyAttributes } from '../../Utils';
-import { sendMessage } from '../../../events/MessageService';
-import CategoryTree from '../Category/CategoryTree';
-import OakChipGroup from '../../../oakui/OakChipGroup';
-import { ArticlePayload, ArticleCategory } from '../../../types/graphql';
-import {
-  LIST_ARTICLES,
-  LIST_ARTICLE_CATEGORIES,
-} from '../../Types/ArticleSchema';
-import OakHeading from '../../../oakui/OakHeading';
+import { LIST_ARTICLE_CATEGORIES } from '../../Types/ArticleSchema';
+import TagEditor from '../../ui/tag/TagEditor';
+import OakSelect from '../../../oakui/wc/OakSelect';
+import OakLabel from '../../../oakui/wc/OakLabel';
 
 interface Props {
-  categoryid: any;
-  history: any;
   asset: any;
+  article: any;
+  handleChange: any;
 }
-
-const ADD_ARTICLE = gql`
-  mutation AddArticle($payload: ArticlePayload!) {
-    addArticle(payload: $payload) {
-      id
-    }
-  }
-`;
-
 const CreateItem = (props: Props) => {
   const { loading, error, data } = useQuery(LIST_ARTICLE_CATEGORIES);
-  const [addArticle, { data: savedArticle }] = useMutation(ADD_ARTICLE);
-  const [state, setState] = useState<any>({
-    title: '',
-    description: '',
-    tags: [],
-    categoryId: '',
-    addTags: [],
-    removeTags: [],
-  });
-  const [formErrors, setFormErrors] = useState<any>({
-    title: null,
-    description: null,
-  });
+  const [categoryOptions, setCategoryOptions] = useState<any>([]);
+
+  useEffect(() => {
+    if (data?.articleCategories) {
+      setCategoryOptions(
+        data.articleCategories.map((item: any) => ({
+          id: item.id,
+          value: item.name,
+        }))
+      );
+    }
+  }, [data]);
+
   const [view, setView] = useState<any>({
     tags: [],
   });
 
-  const globalTags = [
-    'int',
-    'lorem',
-    'ipsum',
-    'dolor',
-    'wrsedfdsf',
-    'fgfdgyy',
-    'ujku',
-    'fre546',
-    'yudsf',
-    'uiasedas',
-    'y78sd',
-  ];
-
   useEffect(() => {
-    setState({
-      title: '',
-      description: '',
-      tags: [],
-      addTags: [],
-      removeTags: [],
-      categoryId: props.categoryid,
+    console.log(props.article);
+    setView({
+      ...view,
+      tags: [...props.article.tags, ...props.article.addTags].filter(
+        (item) => !props.article.removeTags.includes(item)
+      ),
     });
-  }, []);
+  }, [props.article.addTags, props.article.tags, props.article.removeTags]);
 
-  useEffect(() => {
-    setState({ ...state, categoryId: props.categoryid });
-  }, [props.categoryid]);
-
-  useEffect(
-    () =>
-      setView({
-        ...view,
-        tags: [...state.tags, ...state.addTags].filter(
-          item => !state.removeTags.includes(item)
-        ),
-      }),
-    [state.addTags, state.tags, state.removeTags]
-  );
-
-  const handleChange = event => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.value,
-    });
-  };
-  const handleCategoryChange = id => {
-    // setUrlParam({ categoryid: id });
-    setState({ ...state, categoryId: id });
+  const handleCategoryChange = (detail: any) => {
+    props.handleChange({ [detail.name]: detail.value });
   };
 
-  const handleTagAddition = key => {
-    if (!state.tags.includes(key)) {
-      setState({
-        ...state,
-        addTags: [...state.addTags, key],
-        removeTags: state.removeTags.filter(item => item !== key),
-      });
+  const handleTitleChange = (_value: any) => {
+    props.handleChange({ title: _value });
+  };
+
+  const handleEditorChange = (_value: any) => {
+    props.handleChange({ description: _value });
+  };
+
+  const handleChange = (detail: any) => {
+    const _state = { ...props.article };
+    _state[detail.name] = detail.value;
+    props.handleChange(_state);
+  };
+
+  const handleTagAddition = (key: string) => {
+    const _state = { ...props.article };
+    if (!props.article.tags.includes(key)) {
+      _state.addTags = [...props.article.addTags, key];
+      _state.removeTags = props.article.removeTags.filter(
+        (item: string) => item !== key
+      );
     } else {
-      setState({
-        ...state,
-        removeTags: state.removeTags.filter(item => item !== key),
-      });
+      _state.removeTags = props.article.removeTags.filter(
+        (item: string) => item !== key
+      );
     }
+    props.handleChange(_state);
   };
 
-  const handleTagRemoval = key => {
-    if (state.tags.includes(key)) {
-      setState({
-        ...state,
-        removeTags: [...state.removeTags, key],
-        addTags: state.addTags.filter(item => item !== key),
-      });
+  const handleTagRemoval = (key: string) => {
+    const _state = { ...props.article };
+    if (props.article.tags.includes(key)) {
+      _state.removeTags = [...props.article.removeTags, key];
+      _state.addTags = props.article.addTags.filter(
+        (item: string) => item !== key
+      );
     } else {
-      setState({
-        ...state,
-        addTags: state.addTags.filter(item => item !== key),
-      });
+      _state.addTags = props.article.addTags.filter(
+        (item: string) => item !== key
+      );
     }
-  };
-
-  const submit = () => {
-    const errorFields: any = { title: null, description: '' };
-    if (isEmptyOrSpaces(state.title)) {
-      errorFields.title = 'Title cannot be empty';
-    }
-    if (isEmptyOrSpaces(state.description)) {
-      errorFields.description = 'Description cannot be empty';
-    }
-    setFormErrors(errorFields);
-    if (isEmptyAttributes(errorFields)) {
-      const payload: ArticlePayload = {
-        title: state.title,
-        categoryId: state.categoryId,
-        description: state.description,
-        addTags: state.addTags,
-        removeTags: state.removeTags,
-      };
-      addArticle({
-        variables: {
-          payload,
-        },
-        // update: (cache, { data: { addArticle } }) => {
-        //   const data: any = cache.readQuery({ query: LIST_ARTICLE_CATEGORIES });
-        //   console.log('********');
-        //   console.log(data);
-        //   // data.items = [...data.items, addArticle];
-        //   // cache.writeQuery({ query: GET_ITEMS }, data);
-        // },
-      }).then(response => {
-        props.history.length > 2
-          ? props.history.goBack()
-          : props.history.push(`/${props.asset}/article`);
-      });
-    }
-  };
-
-  const cancelCreation = () => {
-    props.history.goBack();
+    props.handleChange(_state);
   };
 
   return (
-    <>
-      <div className="page-header">
-        <OakHeading title="Create article" />
-        <div className="action-header position-right">
-          <OakButton action={submit} theme="primary" variant="appear">
-            <i className="material-icons">double_arrow</i>Save
-          </OakButton>
-          {props.history.length > 2 && (
-            <OakButton
-              action={() => cancelCreation()}
-              theme="default"
-              variant="appear"
-            >
-              <i className="material-icons">close</i>Cancel
-            </OakButton>
-          )}
-        </div>
-      </div>
-      <div className="create-article-item">
-        <CategoryTree
-          category={data?.articleCategories?.find(
-            (item: ArticleCategory) => item.id === state.categoryId
-          )}
-          categories={data?.articleCategories}
-          handleChange={handleCategoryChange}
-          choosable
+    <div className="create-article-item two-sided-page">
+      <div className="create-article-item__container">
+        {/* <OakLabel label="Article title" /> */}
+        <OakEditor
+          fixed
+          value={props.article.title}
+          handleChange={handleTitleChange}
         />
-        {state.categoryId && (
-          <div className="user-form">
-            {/* <CategoryTree id={props.categoryid} /> */}
-            <OakText
-              label="Title"
-              data={state}
-              errorData={formErrors}
-              id="title"
-              handleChange={e => handleChange(e)}
-            />
-            <OakEditor
-              label="Description"
-              data={state}
-              errorData={formErrors}
-              id="description"
-              handleChange={e => handleChange(e)}
-            />
-            <OakChipGroup
-              handleAddition={handleTagAddition}
-              handleRemoval={handleTagRemoval}
-              elements={globalTags}
-              data={view}
-              id="tags"
-              label="Tags"
-            />
-          </div>
-        )}
-        {!state.categoryId && (
-          <div className="typography-4">Choose a category to continue</div>
-        )}
+        {/* <OakLabel label="Article content" /> */}
+        <OakEditor
+          value={props.article.description}
+          handleChange={handleEditorChange}
+        />
       </div>
-    </>
+      <div className="two-sided-page__right">
+        <OakSelect
+          name="categoryId"
+          label="Category"
+          value={props.article.categoryId}
+          autocomplete
+          shape="sharp"
+          gutterBottom
+          handleInput={handleCategoryChange}
+          optionsAsKeyValue={categoryOptions}
+          popupColor="surface"
+          color="container"
+          fill
+        />
+        <TagEditor
+          tags={view.tags}
+          handleRemoval={handleTagRemoval}
+          handleAddition={handleTagAddition}
+        />
+      </div>
+    </div>
   );
 };
 export default CreateItem;

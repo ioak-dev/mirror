@@ -1,55 +1,94 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import './style.scss';
-import TagSection from './TagSection';
-import ArticleSection from './ArticleSection';
-import OakPage from '../../../../oakui/OakPage';
+import { ARTICLES_BY_TAG } from '../../../Types/ArticleSchema';
+import ArticleLink from '../../ArticleLink';
+import { ArticleTag } from '../../../../types/graphql';
+import OakInfiniteScroll from '../../../../oakui/wc/OakInfiniteScroll';
 
 interface Props {
-  setProfile: Function;
-  profile: any;
-  match: any;
-  location: any;
-  history: any;
+  tag: string;
   asset: string;
+  history: any;
 }
 
-const queryString = require('query-string');
-
 const ArticlesByTag = (props: Props) => {
-  const [urlParam, setUrlParam] = useState({
-    name: '',
-  });
+  const { loading, error, data, fetchMore, refetch } = useQuery(
+    ARTICLES_BY_TAG,
+    {
+      variables: { tag: props.tag, pageSize: 10, pageNo: 0 },
+      fetchPolicy: 'cache-and-network',
+    }
+  );
 
-  useEffect(() => {
-    setUrlParam(queryString.parse(props.location.search));
-  }, [props.location.search]);
+  const fetchMoreArticles = () => {
+    if (data?.articlesByTag?.hasMore) {
+      fetchMore({
+        variables: {
+          pageNo: data?.articlesByTag?.pageNo,
+        },
+        updateQuery: (prev: any, { fetchMoreResult }: any) => {
+          return {
+            articlesByTag: {
+              ...prev.articlesByTag,
+              results: [
+                ...prev.articlesByTag.results,
+                ...fetchMoreResult.articlesByTag.results,
+              ],
+              pageNo: fetchMoreResult.articlesByTag.pageNo,
+              hasMore: fetchMoreResult.articlesByTag.hasMore,
+            },
+          };
+        },
+      });
+    }
+  };
+  const goBack = () => {
+    props.history.goBack();
+  };
 
-  const handleChange = name => {
-    props.history.push(`/${props.asset}/article/tag?name=${name}`);
+  const viewByTags = () => {
+    props.history.push(`/${props.asset}/article/tag`);
+  };
+
+  const getHeadingLinks = () => {
+    return [
+      {
+        label: 'Go back',
+        icon: 'reply',
+        action: () => goBack(),
+      },
+      {
+        label: 'See other tags',
+        icon: 'local_offer',
+        action: () => viewByTags(),
+      },
+    ];
   };
 
   return (
-    <OakPage>
-      {/* <div className="typography-4 align-horizontal">
-            Find your questions answered, from the knowledge base. If you
-            don&apos;t get your desired answers, you can post your question for
-            response from our customer support team or a community member
-          </div> */}
-      {!urlParam.name && (
-        <TagSection
-          handleChange={handleChange}
-          asset={props.asset}
-          history={props.history}
-        />
-      )}
-      {urlParam.name && (
-        <ArticleSection
-          tag={urlParam.name}
-          asset={props.asset}
-          history={props.history}
-        />
-      )}
-    </OakPage>
+    <div className="tag-article-section">
+      {/* <OakInfiniteScroll handleChange={fetchMoreArticles}> */}
+      <div className="search-results-section">
+        <div className="search-results-container">
+          {data?.articlesByTag?.results?.map(
+            (item: ArticleTag, index: number) => (
+              <div key={item?.article?.id || index}>
+                {item?.article && (
+                  <ArticleLink
+                    article={item.article}
+                    asset={props.asset}
+                    history={props.history}
+                  />
+                )}
+              </div>
+            )
+          )}
+        </div>
+        {/* <div>{loading ? <OakSpinner /> : ''}</div> */}
+      </div>
+      {/* </OakInfiniteScroll> */}
+    </div>
   );
 };
 

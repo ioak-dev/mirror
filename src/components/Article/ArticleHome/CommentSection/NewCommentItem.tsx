@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import OakEditor from '../../../../oakui/OakEditor';
-import OakButton from '../../../../oakui/OakButton';
 import { UPDATE_POST_COMMENT } from '../../../Types/PostSchema';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../../Utils';
 import { PostCommentPayload } from '../../../../types/graphql';
+import OakButton from '../../../../oakui/wc/OakButton';
 
 interface Props {
   postId: string;
   parentid?: string;
-  closeEdit: Function;
+  closeEdit: any;
 }
 
 const NewCommentItem = (props: Props) => {
@@ -19,10 +19,10 @@ const NewCommentItem = (props: Props) => {
     comment: '',
   });
 
-  const handleChange = event => {
+  const handleChange = (detail: any) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [detail.name]: detail.value,
     });
   };
 
@@ -42,7 +42,7 @@ const NewCommentItem = (props: Props) => {
         variables: {
           payload,
         },
-      }).then(response => {
+      }).then((response) => {
         if (response.data.updatePostComment.id) {
           props.closeEdit();
         }
@@ -52,21 +52,21 @@ const NewCommentItem = (props: Props) => {
 
   return (
     <>
-      <OakEditor
+      {/* <OakEditor
         data={state}
         errorData={formErrors}
         id="comment"
-        handleChange={e => handleChange(e)}
-      />
+        handleChange={handleChange}
+      /> */}
       <div className="action-header position-right">
         <OakButton
-          action={() => props.closeEdit()}
+          handleClick={props.closeEdit}
           theme="default"
           variant="appear"
         >
           <i className="material-icons">close</i>Cancel
         </OakButton>
-        <OakButton action={submit} theme="primary" variant="appear">
+        <OakButton handleClick={submit} theme="primary" variant="appear">
           <i className="material-icons">double_arrow</i>Save
         </OakButton>
       </div>

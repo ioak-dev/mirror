@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import OakViewer from '../../../../oakui/OakViewer';
 import NewCommentItem from './NewCommentItem';
 import ParentCommentPreview from './ParentCommentPreview';
@@ -27,7 +27,7 @@ function ViewComment(props: Props) {
   useEffect(() => {
     (async function anonymous() {
       const matchingComment = props.comments?.find(
-        item => item.id === props.comment.parentId
+        (item) => item.id === props.comment.parentId
       );
       setParentComment(matchingComment);
       if (!matchingComment) {
@@ -38,7 +38,9 @@ function ViewComment(props: Props) {
         setParentComment(response?.postComment);
       }
 
-      setUser(props.users?.find(item => item.id === props.comment?.createdBy));
+      setUser(
+        props.users?.find((item) => item.id === props.comment?.createdBy)
+      );
     })();
   }, [props.comment]);
 

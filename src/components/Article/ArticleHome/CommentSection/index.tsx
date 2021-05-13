@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import NewCommentItem from './NewCommentItem';
 import CommentList from './CommentList';
 import { POST_COMMENTS } from '../../../Types/PostSchema';
 import './style.scss';
-import OakSubheading from '../../../../oakui/OakSubheading';
 
 interface Props {
   postId: string;
@@ -38,11 +37,10 @@ const CommentSection = (props: Props) => {
   return (
     <>
       <div className="section-header">
-        <OakSubheading
-          title={`Comments (${data?.postComments?.results?.length})`}
-          links={getSectionLinks()}
-          linkSize="large"
-        />
+        Comments ({data?.postComments?.results?.length})
+        {/* links={getSectionLinks()} */}
+        <br />
+        section links here
       </div>
 
       {newComment && (

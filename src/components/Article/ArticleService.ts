@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { httpGet, httpPut, httpDelete } from '../Lib/RestTemplate';
 
 import {
-  sendMessage,
   newMessageId,
   httpHandleRequest,
   httpHandleResponse,
@@ -14,7 +12,11 @@ import {
 const domain = 'article';
 const baseUrl = process.env.REACT_APP_API_URL;
 
-export const saveArticle = async (asset, payload, authorization) => {
+export const saveArticle = async (
+  asset: string,
+  payload: any,
+  authorization: any
+) => {
   const action = 'Save article';
   const messageId = newMessageId();
   httpHandleRequest(messageId, action, payload.title);
@@ -30,7 +32,11 @@ export const saveArticle = async (asset, payload, authorization) => {
   }
 };
 
-export const fetchArticle = async (asset, id, authorization) => {
+export const fetchArticle = async (
+  asset: any,
+  id: string,
+  authorization: any
+) => {
   try {
     const response = await axios.get(`${baseUrl}/article/${asset}/${id}`, {
       headers: {
@@ -43,7 +49,11 @@ export const fetchArticle = async (asset, id, authorization) => {
   }
 };
 
-export const deleteArticle = async (asset, id, authorization) => {
+export const deleteArticle = async (
+  asset: any,
+  id: string,
+  authorization: any
+) => {
   try {
     const response = await axios.get(`${baseUrl}/article/${asset}/${id}`, {
       headers: {

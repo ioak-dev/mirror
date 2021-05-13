@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import OakInfiniteScroll from '../../../../oakui/OakInfiniteScroll';
 import { POST_COMMENTS } from '../../../Types/PostSchema';
 import OakSpinner from '../../../../oakui/OakSpinner';
@@ -62,7 +62,7 @@ const CommentList = (props: Props) => {
           <div className="typography-6">No comments</div>
         )}
       </div>
-      <div>{loading ? <OakSpinner /> : ''}</div>
+      {/* <div>{loading ? <OakSpinner /> : ''}</div> */}
     </OakInfiniteScroll>
   );
 };

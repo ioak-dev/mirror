@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import {
   MARK_POSTCOMMENT_AS_ANSWER,
   UNMARK_POSTCOMMENT_AS_ANSWER,

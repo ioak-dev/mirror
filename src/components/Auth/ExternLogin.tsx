@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Login.scss';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 
 import { NEW_EXTERN_SESSION } from '../Types/schema';
-import OakPage from '../../oakui/OakPage';
-import OakSection from '../../oakui/OakSection';
+import OakSection from '../../oakui/wc/OakSection';
 
 const queryString = require('query-string');
 
@@ -44,11 +43,9 @@ const ExternLogin = (props: Props) => {
   return (
     <>
       {isInvalidToken && (
-        <OakPage>
-          <OakSection>
-            <div className="extern-login">Invalid token</div>
-          </OakSection>
-        </OakPage>
+        <OakSection>
+          <div className="extern-login">Invalid token</div>
+        </OakSection>
       )}
     </>
   );

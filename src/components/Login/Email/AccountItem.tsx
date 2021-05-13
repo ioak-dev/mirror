@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import OakText from '../../../oakui/OakText';
-import OakButton from '../../../oakui/OakButton';
+import { useMutation } from '@apollo/client';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../Utils';
 
 import { CREATE_EMAIL_ACCOUNT } from '../../Types/schema';
 import { UserPayload } from '../../../types/graphql';
-import OakHeading from '../../../oakui/OakHeading';
+import OakInput from '../../../oakui/wc/OakInput';
+import OakButton from '../../../oakui/wc/OakButton';
 
 interface Props {
   history: any;
@@ -27,10 +26,10 @@ const AccountItem = (props: Props) => {
 
   const [message, setMessage] = useState(false);
 
-  const handleChange = event => {
+  const handleChange = (detail: any) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [detail.name]: detail.value,
     });
   };
 
@@ -38,7 +37,7 @@ const AccountItem = (props: Props) => {
     props.history.goBack();
   };
 
-  const submit = event => {
+  const submit = (event: any) => {
     console.log('*********');
     event.preventDefault();
     const errorFields: any = { email: '', firstName: '', lastName: '' };
@@ -90,18 +89,16 @@ const AccountItem = (props: Props) => {
       {!message && (
         <form method="GET" onSubmit={submit} noValidate>
           <div className="page-header">
-            <OakHeading
-              title="Email authentication"
-              subtitle="You don't have an user account yet. Signup now"
-            />
-
+            Email authentication
+            <br />
+            You dont have an user account yet. Signup now
             <div className="action-header position-right">
-              <OakButton action={submit} theme="primary" variant="appear">
+              <OakButton handleClick={submit} theme="primary" variant="appear">
                 <i className="material-icons">double_arrow</i>Save
               </OakButton>
               {props.history.length > 2 && (
                 <OakButton
-                  action={() => cancelLogin()}
+                  handleClick={() => cancelLogin()}
                   theme="default"
                   variant="appear"
                 >
@@ -111,26 +108,23 @@ const AccountItem = (props: Props) => {
             </div>
           </div>
           <div className="user-form">
-            <OakText
+            <OakInput
               label="First Name"
-              data={state}
-              errorData={formErrors}
-              id="firstName"
-              handleChange={e => handleChange(e)}
+              value={state.firstName}
+              name="firstName"
+              handleChange={handleChange}
             />
-            <OakText
+            <OakInput
               label="Last name"
-              data={state}
-              errorData={formErrors}
-              id="lastName"
-              handleChange={e => handleChange(e)}
+              value={state.lastName}
+              name="lastName"
+              handleChange={handleChange}
             />
-            <OakText
+            <OakInput
               label="Email"
-              data={state}
-              errorData={formErrors}
-              id="email"
-              handleChange={e => handleChange(e)}
+              value={state.email}
+              name="email"
+              handleChange={handleChange}
             />
           </div>
         </form>

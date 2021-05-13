@@ -4,7 +4,7 @@ const initialState = {
   users: [],
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action: any) {
   switch (action.type) {
     case GET_USER:
       console.log('GET_USER reducer');
@@ -19,6 +19,7 @@ export default function(state = initialState, action) {
       };
     case FETCH_ALL_USERS:
       console.log('FETCH_ALL_USERS reducer');
+      console.log(action);
       return {
         ...state,
         ...action.payload,

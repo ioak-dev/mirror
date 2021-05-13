@@ -1,8 +1,14 @@
 import React from 'react';
-import './style.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
+import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLinkComposer';
+import { compose as typographyCompose } from '@oakui/core-stage/style-composer/OakTypographyComposer';
+import './ArticleLink.scss';
 import { Article } from '../../types/graphql';
 import { formatDateText } from '../Lib/DateUtils';
 import { htmlToText } from '../Utils';
+import ArticleMeta from './ArticleMeta';
+import { toHtml, toText } from '../../oakui/OakEditor/OakEditorService';
 
 interface Props {
   article: Article;
@@ -11,46 +17,67 @@ interface Props {
 }
 
 const ArticleLink = (props: Props) => {
-  const viewArticle = () => {
-    props.history.push(`/${props.asset}/article/view?id=${props.article.id}`);
-  };
-
   return (
     <div className="article-link">
-      <div className="article-title typography-7">
-        <div className="link hyperlink-drama" onClick={viewArticle}>
-          {props.article?.title}
+      {props.article.category && (
+        <div
+          className={typographyCompose({
+            baseClass: 'article-link__category',
+            variant: 'subtitle1',
+            color: 'secondary',
+            transform: 'uppercase',
+          })}
+        >
+          {props.article.category.name}
         </div>
-      </div>
-      <div className="article-meta">
-        {props.article?.createdAt && (
-          <div className="article-date">
-            Published on {formatDateText(props.article?.createdAt)}
-          </div>
-        )}
-        {props.article?.views > 0 && (
-          <div className="article-statistic-chip">
-            {`${props.article?.views} ${
-              props.article?.views === 1 ? 'view' : 'views'
-            }`}
-          </div>
-        )}
-        {props.article?.helpful > 0 && (
-          <div className="article-statistic-chip helpful">
-            {props.article?.helpful}
-            <i className="material-icons">thumb_up</i>
-          </div>
-        )}
-        {props.article?.notHelpful > 0 && (
-          <div className="article-statistic-chip not-helpful">
-            {props.article?.notHelpful}
-            <i className="material-icons">thumb_down</i>
-          </div>
-        )}
+      )}
+      <h2 className="article-link__title">
+        <a
+          href={`/#/${props.asset}/article/view?id=${props.article.id}`}
+          className={typographyCompose({
+            baseClass: linkCompose({
+              baseClass: 'article-link__title__a',
+              color: 'primary',
+              underline: 'none',
+              block: false,
+            }),
+            variant: 'h2',
+          })}
+        >
+          {toText(props.article?.title)}
+        </a>
+      </h2>
+
+      <div>
+        <ArticleMeta
+          article={props.article}
+          show={['date', 'views', 'feedback']}
+        />
       </div>
 
-      <div className="article-description typography-4 three-liner">
-        {htmlToText(props.article.description)}
+      <p
+        className={`article-link__description five-liner ${typographyCompose({
+          variant: 'body2',
+          color: 'inherit',
+        })}`}
+      >
+        {toText(props.article.description)}
+      </p>
+
+      <div className="article-link__more">
+        <a
+          href={`/#/${props.asset}/article/view?id=${props.article.id}`}
+          className={`${linkCompose({
+            color: 'primary',
+            underline: 'none',
+            block: false,
+          })} ${typographyCompose({
+            variant: 'body2',
+            color: 'inherit',
+          })} article-link__more__a`}
+        >
+          Read More <FontAwesomeIcon icon={faLongArrowAltRight} />
+        </a>
       </div>
     </div>
   );

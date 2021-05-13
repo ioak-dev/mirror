@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import EmailItem from './EmailItem';
 import AccountItem from './AccountItem';
 import TokenItem from './TokenItem';
-import OakPage from '../../../oakui/OakPage';
-import OakSection from '../../../oakui/OakSection';
+import OakSection from '../../../oakui/wc/OakSection';
 
 interface Props {
   history: any;
@@ -16,7 +15,7 @@ interface Props {
 const queryString = require('query-string');
 
 const Email = (props: Props) => {
-  const authorization = useSelector(state => state.authorization);
+  const authorization = useSelector((state: any) => state.authorization);
   const [state, setState] = useState({ type: 'email' });
   const [queryParam, setQueryParam] = useState<any>({});
 
@@ -51,31 +50,29 @@ const Email = (props: Props) => {
   }, [authorization]);
 
   return (
-    <OakPage>
-      <OakSection>
-        <div className="view-asset-item">
-          {state.type === 'email' && (
-            <EmailItem
-              history={props.history}
-              tokenLogin={tokenLogin}
-              newAccount={newAccount}
-            />
-          )}
-          {state.type === 'token' && (
-            <TokenItem
-              history={props.history}
-              emailLogin={emailLogin}
-              asset={props.asset}
-              queryParam={queryParam}
-              cookies={props.cookies}
-            />
-          )}
-          {state.type === 'new' && (
-            <AccountItem history={props.history} emailLogin={emailLogin} />
-          )}
-        </div>
-      </OakSection>
-    </OakPage>
+    <OakSection>
+      <div className="view-asset-item">
+        {state.type === 'email' && (
+          <EmailItem
+            history={props.history}
+            tokenLogin={tokenLogin}
+            newAccount={newAccount}
+          />
+        )}
+        {state.type === 'token' && (
+          <TokenItem
+            history={props.history}
+            emailLogin={emailLogin}
+            asset={props.asset}
+            queryParam={queryParam}
+            cookies={props.cookies}
+          />
+        )}
+        {state.type === 'new' && (
+          <AccountItem history={props.history} emailLogin={emailLogin} />
+        )}
+      </div>
+    </OakSection>
   );
 };
 

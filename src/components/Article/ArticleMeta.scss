@@ -1,0 +1,22 @@
+.article-meta__date {
+  color: var(--color-3);
+  font-size: 12px;
+}
+
+.article-meta {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 10px;
+  // margin-bottom: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.article-meta__view {
+  display: grid;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background-color: var(--color-container);
+  font-size: 12px;
+}

@@ -4,9 +4,11 @@ const initialState = {
   theme: 'theme_dark',
   textSize: 'textsize_medium',
   themeColor: 'themecolor1',
+  sidebar: false,
+  hideSidebarOnDesktop: true,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action: any) {
   switch (action.type) {
     case GET_PROFILE:
       console.log('GET_PROFILE reducer');

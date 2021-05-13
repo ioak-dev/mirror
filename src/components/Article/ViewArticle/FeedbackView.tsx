@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Article } from '../../../types/graphql';
 import {
   ADD_ARTICLE_FEEDBACK,
@@ -21,7 +21,7 @@ const FeedbackView = (props: Props) => {
   );
   const [providedFeedbacks, setProvidedFeedbacks] = useState<any[]>([]);
 
-  const feedback = type => {
+  const feedback = (type: any) => {
     if (providedFeedbacks.includes(type)) {
       removeArticleFeedback({
         variables: {
@@ -60,7 +60,7 @@ const FeedbackView = (props: Props) => {
   }, [props.article.feedback]);
 
   return (
-    <div className="action-footer position-right space-top-4 post-feedback align-horizontal">
+    <div className="action-footer position-left post-feedback align-horizontal">
       <div className="align-horizontal">
         <i
           className={`material-icons helpful ${
