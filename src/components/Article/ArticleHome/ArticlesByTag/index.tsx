@@ -5,6 +5,7 @@ import { ARTICLES_BY_TAG } from '../../../Types/ArticleSchema';
 import ArticleLink from '../../ArticleLink';
 import { ArticleTag } from '../../../../types/graphql';
 import OakInfiniteScroll from '../../../../oakui/wc/OakInfiniteScroll';
+import OakButton from '../../../../oakui/wc/OakButton';
 
 interface Props {
   tag: string;
@@ -87,6 +88,18 @@ const ArticlesByTag = (props: Props) => {
         </div>
         {/* <div>{loading ? <OakSpinner /> : ''}</div> */}
       </div>
+      {data?.articlesByTag?.hasMore && (
+        <div className="tag-article-section__more">
+          <OakButton
+            handleClick={fetchMoreArticles}
+            theme="default"
+            size="medium"
+            shape="sharp"
+          >
+            Load more
+          </OakButton>
+        </div>
+      )}
       {/* </OakInfiniteScroll> */}
     </div>
   );

@@ -51,8 +51,7 @@ const CategoryItem = (props: Props) => {
           className={typographyCompose({
             baseClass: linkCompose({
               baseClass: `landing-category-item__name two-liner landing-category-item__name--color-${props.section.color}`,
-              underline: 'none',
-              block: false,
+              underlineStyle: 'none',
             }),
             variant: 'h3',
           })}
@@ -68,8 +67,7 @@ const CategoryItem = (props: Props) => {
                 className={typographyCompose({
                   baseClass: linkCompose({
                     baseClass: `landing-category-item__article__link two-liner landing-category-item__article__link--color-${props.section.color}`,
-                    underline: 'none',
-                    block: false,
+                    underlineStyle: 'none',
                   }),
                   variant: 'body1',
                 })}
@@ -85,8 +83,7 @@ const CategoryItem = (props: Props) => {
             className={typographyCompose({
               baseClass: linkCompose({
                 baseClass: `landing-category-item__more landing-category-item__more--color-${props.section.color}`,
-                underline: 'none',
-                block: false,
+                underlineStyle: 'none',
               }),
               variant: 'subtitle1',
             })}

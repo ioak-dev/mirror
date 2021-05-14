@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { PostComment, User } from '../../../../types/graphql';
+import { ArticleComment, User } from '../../../../types/graphql';
 import OakViewer from '../../../../oakui/OakViewer';
 import { formatDateText } from '../../../Lib/DateUtils';
 import { htmlToText } from '../../../Utils';
 import OakAvatar from '../../../../oakui/OakAvatar';
 
 interface Props {
-  parentComment: PostComment;
+  parentComment: ArticleComment;
   users: User[];
 }
 
@@ -16,7 +16,7 @@ const ParentCommentPreview = (props: Props) => {
 
   useEffect(() => {
     setUser(
-      props.users?.find(item => item.id === props.parentComment?.createdBy)
+      props.users?.find((item) => item.id === props.parentComment?.createdBy)
     );
   }, [props.parentComment]);
 
@@ -28,7 +28,7 @@ const ParentCommentPreview = (props: Props) => {
           onClick={() => setShowFullText(!showFullText)}
         >
           In reply to {`${user?.firstName} ${user?.lastName}`}
-          &apos;s post on {formatDateText(props.parentComment.createdAt)}
+          &apos;s article on {formatDateText(props.parentComment.createdAt)}
         </div>
         {!showFullText && (
           <div className="one-liner">

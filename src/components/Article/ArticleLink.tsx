@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
 import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLinkComposer';
@@ -8,7 +8,12 @@ import { Article } from '../../types/graphql';
 import { formatDateText } from '../Lib/DateUtils';
 import { htmlToText } from '../Utils';
 import ArticleMeta from './ArticleMeta';
-import { toHtml, toText } from '../../oakui/OakEditor/OakEditorService';
+import {
+  getFirstImage,
+  toHtml,
+  toText,
+} from '../../oakui/OakEditor/OakEditorService';
+import { OakEditorBlock } from '../../oakui/OakEditor/types/OakEditorBlock';
 
 interface Props {
   article: Article;
@@ -17,67 +22,81 @@ interface Props {
 }
 
 const ArticleLink = (props: Props) => {
+  const [imageUrl, setImageUrl] = useState<OakEditorBlock | null>(null);
+
+  useEffect(() => {
+    setImageUrl(getFirstImage(props.article.description));
+  }, [props.article]);
+
   return (
-    <div className="article-link">
-      {props.article.category && (
-        <div
-          className={typographyCompose({
-            baseClass: 'article-link__category',
-            variant: 'subtitle1',
-            color: 'secondary',
-            transform: 'uppercase',
-          })}
-        >
-          {props.article.category.name}
+    <div className="article-link__root">
+      {imageUrl && (
+        <div className="article-link__image">
+          <img
+            src={imageUrl.data.raw.urls.regular}
+            alt={imageUrl.data.raw.alt_description}
+          />
         </div>
       )}
-      <h2 className="article-link__title">
-        <a
-          href={`/#/${props.asset}/article/view?id=${props.article.id}`}
-          className={typographyCompose({
-            baseClass: linkCompose({
-              baseClass: 'article-link__title__a',
-              color: 'primary',
-              underline: 'none',
-              block: false,
-            }),
-            variant: 'h2',
-          })}
-        >
-          {toText(props.article?.title)}
-        </a>
-      </h2>
+      <div className="article-link">
+        {props.article.category && (
+          <div
+            className={typographyCompose({
+              baseClass: 'article-link__category',
+              variant: 'subtitle1',
+              color: 'secondary',
+              transform: 'uppercase',
+            })}
+          >
+            {props.article.category.name}
+          </div>
+        )}
+        <h3 className="article-link__title">
+          <a
+            href={`/#/${props.asset}/article/view?id=${props.article.id}`}
+            className={typographyCompose({
+              baseClass: linkCompose({
+                baseClass: 'article-link__title__a',
+                color: 'primary',
+                underlineStyle: 'none',
+              }),
+              variant: 'h3',
+            })}
+          >
+            {toText(props.article?.title)}
+          </a>
+        </h3>
 
-      <div>
-        <ArticleMeta
-          article={props.article}
-          show={['date', 'views', 'feedback']}
-        />
-      </div>
+        <div>
+          <ArticleMeta
+            article={props.article}
+            show={['date', 'views', 'feedback']}
+          />
+        </div>
 
-      <p
-        className={`article-link__description five-liner ${typographyCompose({
-          variant: 'body2',
-          color: 'inherit',
-        })}`}
-      >
-        {toText(props.article.description)}
-      </p>
-
-      <div className="article-link__more">
-        <a
-          href={`/#/${props.asset}/article/view?id=${props.article.id}`}
-          className={`${linkCompose({
-            color: 'primary',
-            underline: 'none',
-            block: false,
-          })} ${typographyCompose({
+        <p
+          className={`article-link__description five-liner ${typographyCompose({
             variant: 'body2',
             color: 'inherit',
-          })} article-link__more__a`}
+          })}`}
         >
-          Read More <FontAwesomeIcon icon={faLongArrowAltRight} />
-        </a>
+          {toText(props.article.description)}
+        </p>
+
+        <div className="article-link__more">
+          <a
+            href={`/#/${props.asset}/article/view?id=${props.article.id}`}
+            className={`${linkCompose({
+              color: 'primary',
+              underlineStyle: 'none',
+            })} ${typographyCompose({
+              variant: 'body2',
+              color: 'inherit',
+            })} article-link__more__a`}
+          >
+            Read More <FontAwesomeIcon icon={faLongArrowAltRight} />
+          </a>
+        </div>
       </div>
     </div>
   );

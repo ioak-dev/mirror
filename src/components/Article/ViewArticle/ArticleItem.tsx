@@ -62,8 +62,7 @@ const ArticleItem = (props: Props) => {
               className={linkCompose({
                 baseClass: 'view-article-item__meta__edit',
                 color: 'primary',
-                block: false,
-                underline: 'hover',
+                underlineStyle: 'hover',
               })}
             >
               <FontAwesomeIcon icon={faPencilAlt} />

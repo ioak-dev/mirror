@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { PostComment } from '../../../../types/graphql';
+import { ArticleComment } from '../../../../types/graphql';
 import {
-  ADD_POST_COMMENT_FEEDBACK,
-  REMOVE_POST_COMMENT_FEEDBACK,
-} from '../../../Types/PostSchema';
+  ADD_ARTICLE_COMMENT_FEEDBACK,
+  REMOVE_ARTICLE_COMMENT_FEEDBACK,
+} from '../../../Types/ArticleSchema';
 import { sendMessage } from '../../../../events/MessageService';
 
 interface Props {
-  comment: PostComment;
+  comment: ArticleComment;
 }
 
 const FeedbackView = (props: Props) => {
-  const [addPostCommentFeedback, { data: addedCommentFeedback }] = useMutation(
-    ADD_POST_COMMENT_FEEDBACK
-  );
   const [
-    removePostCommentFeedback,
+    addArticleCommentFeedback,
+    { data: addedCommentFeedback },
+  ] = useMutation(ADD_ARTICLE_COMMENT_FEEDBACK);
+  const [
+    removeArticleCommentFeedback,
     { data: removedCommentFeedback },
-  ] = useMutation(REMOVE_POST_COMMENT_FEEDBACK);
+  ] = useMutation(REMOVE_ARTICLE_COMMENT_FEEDBACK);
   const [providedFeedbacks, setProvidedFeedbacks] = useState<any[]>([]);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const FeedbackView = (props: Props) => {
 
   const feedback = (type: any) => {
     if (providedFeedbacks.includes(type)) {
-      removePostCommentFeedback({
+      removeArticleCommentFeedback({
         variables: {
           commentId: props.comment.id,
           type,
@@ -45,7 +46,7 @@ const FeedbackView = (props: Props) => {
         });
       });
     } else {
-      addPostCommentFeedback({
+      addArticleCommentFeedback({
         variables: {
           commentId: props.comment.id,
           type,

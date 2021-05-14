@@ -32,3 +32,10 @@
     row-gap: 10px;
   }
 }
+
+.list-section__more {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 30px 0;
+}

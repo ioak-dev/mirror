@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import {
-  MARK_POSTCOMMENT_AS_ANSWER,
-  UNMARK_POSTCOMMENT_AS_ANSWER,
-} from '../../../Types/PostSchema';
+  MARK_ARTICLECOMMENT_AS_ANSWER,
+  UNMARK_ARTICLECOMMENT_AS_ANSWER,
+} from '../../../Types/ArticleSchema';
 import { sendMessage } from '../../../../events/MessageService';
-import { PostComment } from '../../../../types/graphql';
+import { ArticleComment } from '../../../../types/graphql';
 
 interface Props {
-  comment: PostComment;
+  comment: ArticleComment;
 }
 
 const MarkComment = (props: Props) => {
-  const [markAnswer] = useMutation(MARK_POSTCOMMENT_AS_ANSWER);
-  const [unMarkAnswer] = useMutation(UNMARK_POSTCOMMENT_AS_ANSWER);
+  const [markAnswer] = useMutation(MARK_ARTICLECOMMENT_AS_ANSWER);
+  const [unMarkAnswer] = useMutation(UNMARK_ARTICLECOMMENT_AS_ANSWER);
   const [isAnswer, setIsAnswer] = useState(false);
 
   useEffect(() => {

@@ -5,23 +5,25 @@ import NewCommentItem from './NewCommentItem';
 import ParentCommentPreview from './ParentCommentPreview';
 import './style.scss';
 import { formatDateText } from '../../../Lib/DateUtils';
-import { PostComment, User } from '../../../../types/graphql';
+import { ArticleComment, User } from '../../../../types/graphql';
 import FeedbackView from './FeedbackView';
 import EditCommentItem from './EditCommentItem';
-import { POST_COMMENT } from '../../../Types/PostSchema';
+import { ARTICLE_COMMENT } from '../../../Types/ArticleSchema';
 import OakAvatar from '../../../../oakui/OakAvatar';
 import MarkComment from './MarkComment';
 
 interface Props {
-  postId: string;
-  comment: PostComment;
-  comments?: PostComment[];
+  articleId: string;
+  comment: ArticleComment;
+  comments?: ArticleComment[];
   users: User[];
 }
 function ViewComment(props: Props) {
   const gqlClient = useApolloClient();
   const [actionType, setActionType] = useState('none');
-  const [parentComment, setParentComment] = useState<PostComment | undefined>();
+  const [parentComment, setParentComment] = useState<
+    ArticleComment | undefined
+  >();
   const [user, setUser] = useState<User | undefined>();
 
   useEffect(() => {
@@ -32,10 +34,10 @@ function ViewComment(props: Props) {
       setParentComment(matchingComment);
       if (!matchingComment) {
         const { data: response } = await gqlClient.query({
-          query: POST_COMMENT,
+          query: ARTICLE_COMMENT,
           variables: { id: props.comment.parentId },
         });
-        setParentComment(response?.postComment);
+        setParentComment(response?.articleComment);
       }
 
       setUser(
@@ -106,19 +108,19 @@ function ViewComment(props: Props) {
       )}
       {actionType === 'reply' && (
         <NewCommentItem
-          postId={props.postId}
+          articleId={props.articleId}
           closeEdit={() => setActionType('none')}
           parentid={props.comment.id}
         />
       )}
       {actionType === 'editcomment' && (
         <EditCommentItem
-          postId={props.postId}
+          articleId={props.articleId}
           closeEdit={() => setActionType('none')}
           comment={props.comment}
         />
       )}
-      {/* {actionType === 'markcomment' && <MarkComment postId={props.postId} />} */}
+      {/* {actionType === 'markcomment' && <MarkComment articleId={props.articleId} />} */}
     </div>
   );
 }

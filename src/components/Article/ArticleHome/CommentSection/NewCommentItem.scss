@@ -1,0 +1,16 @@
+.new-comment-item {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 20px;
+}
+.new-comment-item__action {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 20px;
+  justify-content: flex-end;
+}
+.new-comment-item__editor {
+  //   background-color: var(--color-float);
+  padding: 5px 10px;
+  border: 1px solid var(--color-global-darkest);
+}

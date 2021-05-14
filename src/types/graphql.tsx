@@ -47,6 +47,43 @@ export type ArticleCategoryPayload = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type ArticleComment = {
+  __typename?: 'ArticleComment';
+  id: Scalars['ID'];
+  text?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['String']>;
+  helpful?: Maybe<Scalars['Int']>;
+  notHelpful?: Maybe<Scalars['Int']>;
+  isAnswer?: Maybe<Scalars['Boolean']>;
+  createdBy?: Maybe<Scalars['String']>;
+  updatedBy?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateScalar']>;
+  updatedAt?: Maybe<Scalars['DateScalar']>;
+  feedback?: Maybe<Array<Maybe<ArticleCommentFeedback>>>;
+};
+
+export type ArticleCommentFeedback = {
+  __typename?: 'ArticleCommentFeedback';
+  id: Scalars['ID'];
+  type?: Maybe<Scalars['String']>;
+  articleComment?: Maybe<ArticleComment>;
+};
+
+export type ArticleCommentPaginated = {
+  __typename?: 'ArticleCommentPaginated';
+  pageNo?: Maybe<Scalars['Int']>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+  total?: Maybe<Scalars['Int']>;
+  results: Array<Maybe<ArticleComment>>;
+};
+
+export type ArticleCommentPayload = {
+  id?: Maybe<Scalars['ID']>;
+  text?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['String']>;
+  articleId: Scalars['String'];
+};
+
 export type ArticleFeedback = {
   __typename?: 'ArticleFeedback';
   id: Scalars['ID'];
@@ -101,7 +138,6 @@ export type Asset = {
   featuredTitle?: Maybe<Scalars['String']>;
   featuredSubtitle?: Maybe<Scalars['String']>;
   hero?: Maybe<Scalars['JSON']>;
-  features?: Maybe<Scalars['JSON']>;
   jwtPassword?: Maybe<Scalars['String']>;
   productionMode?: Maybe<Scalars['Boolean']>;
   assetId?: Maybe<Scalars['String']>;
@@ -118,7 +154,6 @@ export type AssetPayload = {
   featuredTitle?: Maybe<Scalars['String']>;
   featuredSubtitle?: Maybe<Scalars['String']>;
   hero?: Maybe<Scalars['JSON']>;
-  features?: Maybe<Scalars['JSON']>;
   jwtPassword?: Maybe<Scalars['String']>;
   productionMode?: Maybe<Scalars['Boolean']>;
 };
@@ -137,6 +172,11 @@ export type Mutation = {
   createAsset?: Maybe<Asset>;
   addArticle?: Maybe<Article>;
   deleteArticle?: Maybe<Article>;
+  updateArticleComment?: Maybe<ArticleComment>;
+  markArticleCommentAsAnswer?: Maybe<ArticleComment>;
+  unmarkArticleCommentAsAnswer?: Maybe<ArticleComment>;
+  addArticleCommentFeedback?: Maybe<ArticleCommentFeedback>;
+  removeArticleCommentFeedback?: Maybe<ArticleCommentFeedback>;
   addArticleCategory?: Maybe<ArticleCategory>;
   addArticleFeedback?: Maybe<ArticleFeedback>;
   removeArticleFeedback?: Maybe<ArticleFeedback>;
@@ -177,6 +217,33 @@ export type MutationAddArticleArgs = {
 
 export type MutationDeleteArticleArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationUpdateArticleCommentArgs = {
+  payload: ArticleCommentPayload;
+};
+
+
+export type MutationMarkArticleCommentAsAnswerArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationUnmarkArticleCommentAsAnswerArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationAddArticleCommentFeedbackArgs = {
+  commentId: Scalars['String'];
+  type: Scalars['String'];
+};
+
+
+export type MutationRemoveArticleCommentFeedbackArgs = {
+  commentId: Scalars['String'];
+  type: Scalars['String'];
 };
 
 
@@ -379,6 +446,9 @@ export type Query = {
   articles?: Maybe<ArticlePaginated>;
   searchArticles?: Maybe<ArticlePaginated>;
   getArticles?: Maybe<ArticlePaginated>;
+  articleComments?: Maybe<ArticleCommentPaginated>;
+  articleComment?: Maybe<ArticleComment>;
+  articleCommentFeedback?: Maybe<Array<Maybe<ArticleCommentFeedback>>>;
   articleCategory?: Maybe<ArticleCategory>;
   articleCategories?: Maybe<Array<Maybe<ArticleCategory>>>;
   articleFeedback?: Maybe<Array<Maybe<ArticleFeedback>>>;
@@ -448,6 +518,23 @@ export type QueryGetArticlesArgs = {
   categoryId?: Maybe<Scalars['String']>;
   pageSize?: Maybe<Scalars['Int']>;
   pageNo?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryArticleCommentsArgs = {
+  articleId: Scalars['String'];
+  pageSize?: Maybe<Scalars['Int']>;
+  pageNo?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryArticleCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryArticleCommentFeedbackArgs = {
+  commentId: Scalars['ID'];
 };
 
 

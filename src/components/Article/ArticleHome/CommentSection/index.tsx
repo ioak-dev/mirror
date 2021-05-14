@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { compose as sectionCompose } from '@oakui/core-stage/style-composer/OakSectionComposer';
 import NewCommentItem from './NewCommentItem';
 import CommentList from './CommentList';
-import { POST_COMMENTS } from '../../../Types/PostSchema';
+import { ARTICLE_COMMENTS } from '../../../Types/ArticleSchema';
 import './style.scss';
+import OakButton from '../../../../oakui/wc/OakButton';
+import OakSection from '../../../../oakui/wc/OakSection';
 
 interface Props {
-  postId: string;
+  articleId: string;
 }
 
 const CommentSection = (props: Props) => {
-  const { loading, data, fetchMore } = useQuery(POST_COMMENTS, {
+  const { loading, data, fetchMore } = useQuery(ARTICLE_COMMENTS, {
     variables: {
-      postId: props.postId,
+      articleId: props.articleId,
     },
     fetchPolicy: 'network-only',
   });
@@ -35,24 +38,39 @@ const CommentSection = (props: Props) => {
   };
 
   return (
-    <>
-      <div className="section-header">
-        Comments ({data?.postComments?.results?.length})
-        {/* links={getSectionLinks()} */}
-        <br />
-        section links here
+    <div className="comment-section">
+      <div
+        className={sectionCompose({
+          baseClass: 'comment-section__header__container',
+          paddingHorizontal: 2,
+          paddingVertical: 5,
+          marginVertical: 4,
+        })}
+      >
+        Comments
       </div>
+      {!newComment && (
+        <div className="comment-section__new">
+          <OakButton
+            shape="sharp"
+            theme="default"
+            handleClick={() => setNewComment(true)}
+          >
+            New Comment
+          </OakButton>
+        </div>
+      )}
 
       {newComment && (
         <NewCommentItem
-          postId={props.postId}
+          articleId={props.articleId}
           closeEdit={() => setNewComment(false)}
         />
       )}
       <div className={viewComments ? 'comment-list show' : 'comment-list hide'}>
-        <CommentList postId={props.postId} />
+        <CommentList articleId={props.articleId} />
       </div>
-    </>
+    </div>
   );
 };
 

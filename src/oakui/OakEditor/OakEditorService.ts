@@ -56,3 +56,23 @@ export const toText = (blocks: OakEditorBlock[]) => {
 
   return result;
 };
+
+export const getFirstImage = (
+  blocks: OakEditorBlock[]
+): OakEditorBlock | null => {
+  let result: OakEditorBlock | null = null;
+
+  blocks.forEach((block) => {
+    if (!result) {
+      switch (block.type) {
+        case OakEditorBlockType.UNSPLASH:
+          result = block;
+          break;
+        default:
+          break;
+      }
+    }
+  });
+
+  return result;
+};

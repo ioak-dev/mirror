@@ -1,3 +1,10 @@
+.comment-section__header__container {
+  text-align: center;
+}
+.comment-section__new {
+  display: flex;
+  justify-content: flex-end;
+}
 .comment-list {
   display: grid;
   grid-auto-flow: row;

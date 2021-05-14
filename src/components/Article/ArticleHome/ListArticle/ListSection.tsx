@@ -9,6 +9,7 @@ import {
   LIST_ARTICLE_CATEGORIES,
   SEARCH_ARTICLES,
 } from '../../../Types/ArticleSchema';
+import OakButton from '../../../../oakui/wc/OakButton';
 
 interface Props {
   asset: string;
@@ -71,6 +72,18 @@ const ListSection = (props: Props) => {
         </div>
         {/* <div>{loading ? <OakSpinner /> : ''}</div> */}
       </div>
+      {data?.getArticles?.hasMore && (
+        <div className="list-section__more">
+          <OakButton
+            handleClick={fetchMoreArticles}
+            theme="default"
+            size="medium"
+            shape="sharp"
+          >
+            Load more
+          </OakButton>
+        </div>
+      )}
       {/* </OakInfiniteScroll> */}
     </div>
   );

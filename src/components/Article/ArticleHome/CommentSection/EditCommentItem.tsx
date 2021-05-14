@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { PostComment, PostCommentPayload } from '../../../../types/graphql';
+import {
+  ArticleComment,
+  ArticleCommentPayload,
+} from '../../../../types/graphql';
 import OakEditor from '../../../../oakui/OakEditor';
-import { UPDATE_POST_COMMENT } from '../../../Types/PostSchema';
+import { UPDATE_ARTICLE_COMMENT } from '../../../Types/ArticleSchema';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../../Utils';
 import OakButton from '../../../../oakui/wc/OakButton';
 
 interface Props {
-  postId: string;
-  comment: PostComment;
+  articleId: string;
+  comment: ArticleComment;
   closeEdit: Function;
 }
 const EditCommentItem = (props: Props) => {
-  const [updateComment] = useMutation(UPDATE_POST_COMMENT);
+  const [updateComment] = useMutation(UPDATE_ARTICLE_COMMENT);
   const [state, setState] = useState<any>({ comment: '' });
   const [formErrors, setFormErrors] = useState<any>({
     comment: '',
@@ -36,10 +39,10 @@ const EditCommentItem = (props: Props) => {
     }
     setFormErrors(errorFields);
     if (isEmptyAttributes(errorFields)) {
-      const payload: PostCommentPayload = {
+      const payload: ArticleCommentPayload = {
         id: props.comment.id,
         parentId: props.comment.parentId,
-        postId: props.postId,
+        articleId: props.articleId,
         text: state.comment,
       };
       updateComment({
@@ -47,7 +50,7 @@ const EditCommentItem = (props: Props) => {
           payload,
         },
       }).then((response) => {
-        if (response.data.updatePostComment.id) {
+        if (response.data.updateArticleComment.id) {
           props.closeEdit();
         }
       });

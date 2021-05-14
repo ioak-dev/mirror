@@ -52,7 +52,7 @@ const ViewArticle = (props: Props) => {
           )}
           {error && <div>Article does not exist</div>}
           <div className="comment-section-wrapper">
-            <CommentSection postId={urlParam.id} />
+            <CommentSection articleId={urlParam.id} />
           </div>
         </div>
       </div>
