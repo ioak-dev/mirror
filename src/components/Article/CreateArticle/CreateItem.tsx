@@ -5,6 +5,7 @@ import { LIST_ARTICLE_CATEGORIES } from '../../Types/ArticleSchema';
 import TagEditor from '../../ui/tag/TagEditor';
 import OakSelect from '../../../oakui/wc/OakSelect';
 import OakLabel from '../../../oakui/wc/OakLabel';
+import ContentEditor from '../../../elements/core/ContentEditor';
 
 interface Props {
   asset: any;
@@ -92,16 +93,24 @@ const CreateItem = (props: Props) => {
     <div className="create-article-item two-sided-page">
       <div className="create-article-item__container">
         {/* <OakLabel label="Article title" /> */}
-        <OakEditor
+        <ContentEditor
+          value={props.article.title}
+          handleChange={handleTitleChange}
+          fixed
+        />
+        <ContentEditor
+          value={props.article.description}
+          handleChange={handleEditorChange}
+        />
+        {/* <OakEditor
           fixed
           value={props.article.title}
           handleChange={handleTitleChange}
         />
-        {/* <OakLabel label="Article content" /> */}
         <OakEditor
           value={props.article.description}
           handleChange={handleEditorChange}
-        />
+        /> */}
       </div>
       <div className="two-sided-page__right">
         <OakSelect

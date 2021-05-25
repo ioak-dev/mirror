@@ -19,6 +19,7 @@ import EditArticle from '../Article/EditArticle';
 import ViewAsset from '../Asset/ViewAsset';
 import Home from '../Home';
 import Landing from '../Landing';
+import ElementsDemo from '../ElementsDemo';
 
 interface Props {
   cookies: any;
@@ -191,6 +192,18 @@ const RouterView = (props: Props) => {
             {...props}
             component={EditArticle}
             middleware={['authenticate']}
+          />
+        )}
+      />
+
+      <Route
+        path="/:asset/elements"
+        render={(propsLocal) => (
+          <OakRouteGraph
+            {...propsLocal}
+            {...props}
+            component={ElementsDemo}
+            middleware={['readAuthentication']}
           />
         )}
       />

@@ -1,0 +1,14 @@
+.elements {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 40px;
+}
+.elements__editor {
+  border: var(--elements-editor-border);
+  background-color: var(--elements-editor-background-color);
+  color: var(--elements-editor-text-color);
+}
+
+.elements__demo {
+  display: none;
+}

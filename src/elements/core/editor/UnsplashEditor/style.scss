@@ -1,0 +1,67 @@
+.unsplash-editor {
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+}
+// .unsplash-editor__output__container {
+//   display: grid;
+//   justify-items: center;
+//   width: 50%;
+// }
+.oak-editor-two-column {
+}
+.unsplash-editor__output__container--center {
+  width: 50%;
+}
+.unsplash-editor__output__container__text,
+.unsplash-editor__output__container__image {
+  width: 100%;
+}
+.unsplash-editor__output__container__image__img {
+  width: 100%;
+}
+.unsplash-editor__input {
+  display: flex;
+  justify-content: center;
+  border: none;
+  transition: border-color 250ms ease-in-out;
+  &:hover {
+    // border: 1px dotted var(--color-3);
+  }
+}
+.unsplash-editor__input--editing {
+  transition: border-color 250ms ease-in-out;
+  // border: 1px dotted var(--color-1);
+  &:hover {
+    // border: 1px dotted var(--color-1);
+  }
+}
+.unsplash-editor__input__container {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 20px;
+  width: 100%;
+}
+.unsplash-editor__input__container__search {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.unsplash-editor__input__container__results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-items: center;
+}
+
+.unsplash-editor__input__container__results__img {
+  width: 100%;
+  transition: opacity 250ms ease-in-out;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.unsplash-editor__output__container__text {
+  background-color: var(--color-surface);
+}
+.unsplash-editor__output__container__text__container {
+  padding: 4px 10px;
+}

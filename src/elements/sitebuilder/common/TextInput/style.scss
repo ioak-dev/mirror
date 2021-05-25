@@ -1,0 +1,28 @@
+@import '../../style.scss';
+
+.text-input__input {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  // background-color: rgba(121, 199, 217, 0.6);
+  background-color: inherit;
+  color: var(--color-1);
+  border: 1px solid grey;
+  padding: 10px 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
+}
+
+// .text-input__output {
+//   display: grid;
+//   grid-auto-flow: column;
+//   align-items: center;
+//   justify-content: flex-start;
+// }
+
+.text-input__placeholder {
+  color: #000;
+  background-color: rgba(0, 182, 228, 0.5);
+}

@@ -8,7 +8,7 @@ import OakButton from '../../../oakui/wc/OakButton';
 import { AssetPayload } from '../../../types/graphql';
 import SiteBuilder from './SiteBuilder';
 import { newId } from '../../../events/MessageService';
-import OakEditorBlockType from '../../../oakui/OakEditor/types/OakEditorBlockType';
+import BlockType from '../../../elements/core/ContentEditor/BlockType';
 
 interface Props {
   location: any;
@@ -39,7 +39,7 @@ const ViewAsset = (props: Props) => {
       block: {
         id: newId(),
         type: null,
-        supportedTypes: [OakEditorBlockType.IMAGE, OakEditorBlockType.UNSPLASH],
+        supportedTypes: [BlockType.IMAGE, BlockType.UNSPLASH],
         label: 'BANNER',
         data: {
           position: 'center',

@@ -1,0 +1,32 @@
+.action-button {
+  background-color: var(--elements-toolbar-button-background-color);
+  color: var(--elements-toolbar-button-text-color);
+  border: none;
+  box-shadow: none;
+  min-height: var(--elements-toolbar-button-height);
+  min-width: var(--elements-toolbar-button-width);
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 4px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--elements-toolbar-button-border-radius);
+  svg {
+    width: 20px;
+  }
+  svg path {
+    fill: var(--elements-toolbar-button-text-color);
+    transition: fill 250ms ease-in-out;
+  }
+  cursor: pointer;
+  transition: color 250ms ease-in-out, background-color 250ms ease-in-out,
+    border-color 250ms ease-in-out;
+}
+.action-button:hover,
+.action-button:focus {
+  background-color: var(--elements-toolbar-button-background-color-hover);
+  color: var(--elements-toolbar-button-text-color-hover);
+  svg path {
+    fill: var(--elements-toolbar-button-text-color-hover);
+  }
+}

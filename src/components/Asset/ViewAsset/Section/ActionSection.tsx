@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import './ActionSection.scss';
 import OakButton from '../../../../oakui/wc/OakButton';
-import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import { newId } from '../../../../events/MessageService';
-import OakRadio from '../../../../oakui/wc/OakRadio';
-import OakEditorBlockType from '../../../../oakui/OakEditor/types/OakEditorBlockType';
 import OakInput from '../../../../oakui/wc/OakInput';
 import OakSelect from '../../../../oakui/wc/OakSelect';
 import OakCheckbox from '../../../../oakui/wc/OakCheckbox';

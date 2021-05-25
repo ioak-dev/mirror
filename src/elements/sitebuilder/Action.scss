@@ -1,0 +1,11 @@
+.elements-site__action {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.elements-site__action--align-center {
+  justify-content: center;
+}

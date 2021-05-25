@@ -9,7 +9,7 @@ import { DELETE_ARTICLE } from '../../Types/ArticleSchema';
 
 import './ArticleItem.scss';
 import ArticleMeta from '../ArticleMeta';
-import { toHtml, toText } from '../../../oakui/OakEditor/OakEditorService';
+import { toText, toHtml } from '../../../elements/core/EditorService';
 import OakClickArea from '../../../oakui/wc/OakClickArea';
 
 interface Props {

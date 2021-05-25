@@ -1,0 +1,124 @@
+.elements-site__action-button {
+  background-color: var(--color-default);
+  color: var(--color-default-i);
+  border: 2px solid var(--color-default);
+  box-shadow: none;
+  padding: 4px 18px;
+  height: 40px;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  transition: color 250ms ease-in-out, background-color 250ms ease-in-out,
+    border-color 250ms ease-in-out;
+}
+.elements-site__action-button:hover,
+.elements-site__action-button:focus {
+  background-color: var(--color-default-dark);
+  color: var(--color-default-dark-i);
+  border: 2px solid var(--color-default-dark);
+}
+
+.elements-site__action-button--color-primary {
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary-i);
+  &:hover,
+  &:focus {
+    background-color: var(--color-primary-dark);
+    border: 2px solid var(--color-primary-dark);
+    color: var(--color-primary-dark-i);
+  }
+}
+.elements-site__action-button--color-secondary {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-secondary);
+  color: var(--color-secondary-i);
+  &:hover,
+  &:focus {
+    background-color: var(--color-secondary-dark);
+    border: 2px solid var(--color-secondary-dark);
+    color: var(--color-secondary-dark-i);
+  }
+}
+
+.elements-site__action-button--color-custom {
+  background-color: var(--action-button-background-color);
+  border: 2px solid var(--action-button-background-color);
+  color: var(--action-button-color);
+  &:hover,
+  &:focus {
+    background-color: var(--action-button-background-color-hover);
+    border: 2px solid var(--action-button-background-color-hover);
+    color: var(--action-button-color-hover);
+  }
+}
+
+.elements-site__action-button--rounded {
+  border-radius: 4px;
+}
+.elements-site__action-button--size-small {
+  height: 30px;
+  font-size: 12px;
+  padding: 4px 14px;
+}
+.elements-site__action-button--size-large {
+  height: 46px;
+  font-size: 16px;
+  padding: 4px 22px;
+}
+.elements-site__action-button--variant-appear {
+  background-color: transparent;
+  color: var(--action-button-background-color);
+}
+.elements-site__action-button--variant-appear.elements-site__action-button--color-default {
+  color: var(--color-default);
+  &:hover,
+  &:focus {
+    color: var(--color-default-i);
+  }
+}
+.elements-site__action-button--variant-appear.elements-site__action-button--color-primary {
+  color: var(--color-primary);
+  &:hover,
+  &:focus {
+    color: var(--color-primary-i);
+  }
+}
+.elements-site__action-button--variant-appear.elements-site__action-button--color-secondary {
+  color: var(--color-secondary);
+  &:hover,
+  &:focus {
+    color: var(--color-secondary-i);
+  }
+}
+
+.elements-site__action-button--variant-disappear {
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    color: var(--action-button-background-color);
+  }
+}
+.elements-site__action-button--variant-disappear.elements-site__action-button--color-default {
+  &:hover,
+  &:focus {
+    color: var(--color-default);
+  }
+}
+.elements-site__action-button--variant-disappear.elements-site__action-button--color-primary {
+  &:hover,
+  &:focus {
+    color: var(--color-primary);
+  }
+}
+.elements-site__action-button--variant-disappear.elements-site__action-button--color-secondary {
+  &:hover,
+  &:focus {
+    color: var(--color-secondary);
+  }
+}

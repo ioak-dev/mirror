@@ -11,7 +11,7 @@ import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLink
 
 import './CategoryItem.scss';
 import { GET_ARTICLES } from '../../Types/ArticleSchema';
-import { toText } from '../../../oakui/OakEditor/OakEditorService';
+import { toText, toHtml } from '../../../elements/core/EditorService';
 
 interface Props {
   history: any;

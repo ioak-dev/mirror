@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import './FeatureItemSection.scss';
 import OakButton from '../../../../oakui/wc/OakButton';
-import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import { newId } from '../../../../events/MessageService';
-import OakRadio from '../../../../oakui/wc/OakRadio';
-import OakEditorBlockType from '../../../../oakui/OakEditor/types/OakEditorBlockType';
+import BlockType from '../../../../elements/core/ContentEditor/BlockType';
 import OakInput from '../../../../oakui/wc/OakInput';
-import OakSelect from '../../../../oakui/wc/OakSelect';
-import OakCheckbox from '../../../../oakui/wc/OakCheckbox';
-import OakBlock from '../../../../oakui/OakEditor/OakBlock';
 
 interface Props {
   feature: any[];
@@ -25,7 +20,7 @@ const FeatureItemSection = (props: Props) => {
       block: {
         id: newId(),
         type: null,
-        supportedTypes: [OakEditorBlockType.IMAGE, OakEditorBlockType.UNSPLASH],
+        supportedTypes: [BlockType.IMAGE, BlockType.UNSPLASH],
         label: 'IMAGE',
         data: {
           position: 'center',
@@ -54,7 +49,7 @@ const FeatureItemSection = (props: Props) => {
     _handleChange(inputFeature.id, 'block', {
       id: newId(),
       type: null,
-      supportedTypes: [OakEditorBlockType.IMAGE, OakEditorBlockType.UNSPLASH],
+      supportedTypes: [BlockType.IMAGE, BlockType.UNSPLASH],
       label: 'BANNER',
       data: {
         position: 'center',
@@ -103,12 +98,13 @@ const FeatureItemSection = (props: Props) => {
               handleInput={(detail: any) => handleChange(detail, feature)}
               gutterBottom
             />
-            <OakBlock
+            replace oak block with new elements component
+            {/* <OakBlock
               value={feature.block}
               handleChange={(value: any) => handleBannerChange(value, feature)}
               reset={(value: any) => resetBanner(feature)}
               setBlockType={(value: any) => setBannerSource(value, feature)}
-            />
+            /> */}
           </div>
         ))}
       </div>

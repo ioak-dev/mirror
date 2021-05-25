@@ -1,0 +1,24 @@
+.elements-site__background {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.elements-site__background--parallax {
+  background-attachment: fixed;
+  background-position: 50%;
+}
+
+.elements-site__background__overlay {
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+  // align-content: center;
+}
+
+.elements-site__background--split {
+  height: 100%;
+  .elements-site__background__overlay {
+    height: 100%;
+  }
+}

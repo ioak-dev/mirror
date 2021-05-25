@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { compose as sectionCompose } from '@oakui/core-stage/style-composer/OakSectionComposer';
 import './HeroSection.scss';
 import OakInput from '../../../../oakui/wc/OakInput';
-import OakEditorBlock from '../../../../oakui/OakEditor/OakEditorBlock';
 import { newId } from '../../../../events/MessageService';
-import OakEditorBlockType from '../../../../oakui/OakEditor/types/OakEditorBlockType';
-import OakBlock from '../../../../oakui/OakEditor/OakBlock';
 import OakSelect from '../../../../oakui/wc/OakSelect';
 import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import OakCheckbox from '../../../../oakui/wc/OakCheckbox';
 import OakButton from '../../../../oakui/wc/OakButton';
 import OakRadio from '../../../../oakui/wc/OakRadio';
 import ActionSection from './ActionSection';
+import BlockType from '../../../../elements/core/ContentEditor/BlockType';
 
 interface Props {
   section: any;
@@ -44,7 +42,7 @@ const SpotlightSection = (props: Props) => {
     _handleChange('block', {
       id: newId(),
       type: null,
-      supportedTypes: [OakEditorBlockType.IMAGE, OakEditorBlockType.UNSPLASH],
+      supportedTypes: [BlockType.IMAGE, BlockType.UNSPLASH],
       label: 'BANNER',
       data: {
         position: 'center',
@@ -168,12 +166,13 @@ const SpotlightSection = (props: Props) => {
           />
         </div>
         {props.section.background === 'image' && (
-          <OakBlock
-            value={props.section.block}
-            handleChange={handleBannerChange}
-            reset={resetBanner}
-            setBlockType={setBannerSource}
-          />
+          // <OakBlock
+          //   value={props.section.block}
+          //   handleChange={handleBannerChange}
+          //   reset={resetBanner}
+          //   setBlockType={setBannerSource}
+          // />
+          <>replace oak block with new elements component</>
         )}
       </div>
     </div>

@@ -1,0 +1,22 @@
+.elements-site__split-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.elements-site__split-section--proportion-p1 {
+  grid-template-columns: 1fr 1.5fr;
+}
+.elements-site__split-section--proportion-m1 {
+  grid-template-columns: 1.5fr 1fr;
+}
+.elements-site__split-section--proportion-p2 {
+  grid-template-columns: 1fr 2fr;
+}
+.elements-site__split-section--proportion-m2 {
+  grid-template-columns: 2fr 1fr;
+}
+.elements-site__split-section--proportion-p3 {
+  grid-template-columns: 1fr 2.5fr;
+}
+.elements-site__split-section--proportion-m3 {
+  grid-template-columns: 2.5fr 1fr;
+}

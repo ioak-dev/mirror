@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { compose as sectionCompose } from '@oakui/core-stage/style-composer/OakSectionComposer';
 import './CategorySection.scss';
 import OakInput from '../../../../oakui/wc/OakInput';
-import OakEditorBlock from '../../../../oakui/OakEditor/OakEditorBlock';
-import { newId } from '../../../../events/MessageService';
-import OakEditorBlockType from '../../../../oakui/OakEditor/types/OakEditorBlockType';
-import OakBlock from '../../../../oakui/OakEditor/OakBlock';
 import OakSelect from '../../../../oakui/wc/OakSelect';
 import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import OakCheckbox from '../../../../oakui/wc/OakCheckbox';
-import OakButton from '../../../../oakui/wc/OakButton';
 import OakRadio from '../../../../oakui/wc/OakRadio';
-import ActionSection from './ActionSection';
+import { newId } from '../../../../events/MessageService';
 
 interface Props {
   section: any;

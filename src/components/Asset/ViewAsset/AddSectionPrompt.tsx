@@ -4,7 +4,7 @@ import OakButton from '../../../oakui/wc/OakButton';
 import OakRadioGroup from '../../../oakui/wc/OakRadioGroup';
 import { newId } from '../../../events/MessageService';
 import OakRadio from '../../../oakui/wc/OakRadio';
-import OakEditorBlockType from '../../../oakui/OakEditor/types/OakEditorBlockType';
+import BlockType from '../../../elements/core/ContentEditor/BlockType';
 
 interface Props {
   addSection: any;
@@ -40,10 +40,7 @@ const AddSectionPrompt = (props: Props) => {
           block: {
             id: newId(),
             type: null,
-            supportedTypes: [
-              OakEditorBlockType.IMAGE,
-              OakEditorBlockType.UNSPLASH,
-            ],
+            supportedTypes: [BlockType.IMAGE, BlockType.UNSPLASH],
             label: 'IMAGE',
             data: {
               position: 'center',

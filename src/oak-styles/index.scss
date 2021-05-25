@@ -23,6 +23,8 @@
 @import './custom/typography.css';
 @import './custom/oak-app-layout.css';
 
+@import '../elements/elements_variables.css';
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

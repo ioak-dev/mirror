@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import OakEditor from '../../../../oakui/OakEditor';
 import { UPDATE_ARTICLE_COMMENT } from '../../../Types/ArticleSchema';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../../Utils';
 import { ArticleCommentPayload } from '../../../../types/graphql';
 import OakButton from '../../../../oakui/wc/OakButton';
 
 import './NewCommentItem.scss';
-import OakEditorRichText from '../../../../oakui/OakEditor/OakEditorRichText';
-import OakRichTextControlType from '../../../../oakui/OakEditor/types/OakRichTextControlType';
+import RichTextEditor from '../../../../elements/core/editor/RichTextEditor';
+import RichTextControlType from '../../../../elements/core/editor/RichTextEditor/RichTextControlType';
 
 interface Props {
   articleId: string;
@@ -60,16 +59,15 @@ const NewCommentItem = (props: Props) => {
         </OakButton>
       </div>
       <div className="new-comment-item__editor">
-        <OakEditorRichText
+        <RichTextEditor
           value={state.comment}
           handleChange={handleChange}
-          blockStyle
           controls={[
-            OakRichTextControlType.BOLD,
-            OakRichTextControlType.ITALIC,
-            OakRichTextControlType.UNDERLINE,
-            OakRichTextControlType.BULLET_LIST,
-            OakRichTextControlType.ORDERED_LIST,
+            RichTextControlType.BOLD,
+            RichTextControlType.ITALIC,
+            RichTextControlType.UNDERLINE,
+            RichTextControlType.BULLET_LIST,
+            RichTextControlType.ORDERED_LIST,
           ]}
         />
       </div>

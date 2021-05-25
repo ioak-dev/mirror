@@ -9,11 +9,10 @@ import { formatDateText } from '../Lib/DateUtils';
 import { htmlToText } from '../Utils';
 import ArticleMeta from './ArticleMeta';
 import {
-  getFirstImage,
-  toHtml,
   toText,
-} from '../../oakui/OakEditor/OakEditorService';
-import { OakEditorBlock } from '../../oakui/OakEditor/types/OakEditorBlock';
+  toHtml,
+  getFirstImage,
+} from '../../elements/core/EditorService';
 
 interface Props {
   article: Article;
@@ -22,7 +21,7 @@ interface Props {
 }
 
 const ArticleLink = (props: Props) => {
-  const [imageUrl, setImageUrl] = useState<OakEditorBlock | null>(null);
+  const [imageUrl, setImageUrl] = useState<any>(null);
 
   useEffect(() => {
     setImageUrl(getFirstImage(props.article.description));

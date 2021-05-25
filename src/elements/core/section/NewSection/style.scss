@@ -1,0 +1,9 @@
+.new-section {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 4px;
+  border: var(--elements-section-border);
+  background-color: var(--elements-section-background-color);
+  color: var(--elements-section-text-color);
+  padding: 4px 10px;
+}

@@ -4,6 +4,7 @@ import { newId } from '../../../events/MessageService';
 import HeroSection from './Section/HeroSection';
 import AddSectionPrompt from './AddSectionPrompt';
 import Section from './Section';
+import HeroEditor from '../../../elements/sitebuilder/editor/HeroEditor';
 
 interface Props {
   assetData: any;
@@ -42,10 +43,16 @@ const SiteBuilder = (props: Props) => {
   return (
     <div className="site-builder">
       <div className="site-builder__hero">
-        <HeroSection
+        {/* <HeroSection
           section={props.assetData.hero}
           handleChange={handleHeroChange}
-        />
+        /> */}
+        {props.assetData.hero.background && (
+          <HeroEditor
+            handleChange={handleHeroChange}
+            value={props.assetData.hero}
+          />
+        )}
       </div>
       {props.assetData?.section?.map((section: any) => (
         <div key={section.id} className="site-builder__section">
