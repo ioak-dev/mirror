@@ -1,0 +1,14 @@
+.elements-site__image-container {
+  display: flex;
+  justify-content: center;
+}
+.elements-site__image-container--align-left {
+  justify-content: flex-start;
+}
+.elements-site__image-container--align-right {
+  justify-content: flex-end;
+}
+.elements-site__image-container__img {
+  width: 100%;
+  object-fit: cover;
+}

@@ -1,0 +1,147 @@
+import React, { useEffect, useState } from 'react';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { newId } from '../../../../elements/utils/BasicUtil';
+import './style.scss';
+import MetaDetails from './MetaDetails';
+import ContentBuilder from '../../builder/ContentBuilder';
+import ContentType from '../../builder/ContentBuilder/ContentType';
+import BackgroundView from '../../common/BackgroundView';
+import {
+  getContentClass,
+  getSplitSectionClass,
+  getTextAlignment,
+} from '../../SitebuilderService';
+import ControlButton from '../../common/ControlButton';
+
+interface Props {
+  value: any;
+  handleChange: any;
+  placeholder?: string;
+}
+const SplitContentEditor = (props: Props) => {
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const handleContentLeftChange = (content: any) => {
+    const _value = { ...props.value };
+    _value.left.content = content;
+    props.handleChange(_value);
+  };
+
+  const handleContentRightChange = (content: any) => {
+    const _value = { ...props.value };
+    _value.right.content = content;
+    props.handleChange(_value);
+  };
+
+  const handleLeftMetaChange = (value: any) => {
+    const _value = { ...props.value };
+    _value.left = value;
+    _value.right = { ..._value.right, height: value.height };
+    props.handleChange(_value);
+  };
+
+  const handleRightMetaChange = (value: any) => {
+    const _value = { ...props.value };
+    _value.right = value;
+    _value.left = { ..._value.left, height: value.height };
+    props.handleChange(_value);
+  };
+  const handleContentChange = (content: any) => {
+    console.log(content);
+    const _value = { ...props.value, content };
+    props.handleChange(_value);
+  };
+
+  useEffect(() => {
+    const el = document.getElementById(elementId);
+    if (
+      el &&
+      props.value?.background?.source === 'UNSPLASH' &&
+      props.value?.background?.data?.urls
+    ) {
+      el.style.backgroundImage = `url("${props.value.background.data.urls.regular}")`;
+      el.style.backgroundColor = 'inherit';
+    }
+    if (el && props.value?.background?.source === 'SOLID-COLOR') {
+      el.style.backgroundImage = 'none';
+      if (props.value?.background?.data?.color === 'custom') {
+        el.style.backgroundColor = props.value?.background?.data?.hex;
+      } else if (props.value?.background?.data?.color === 'default') {
+        el.style.backgroundColor = 'var(--color-surface)';
+      } else {
+        el.style.backgroundColor = `var(--color-${props.value?.background?.data?.color})`;
+      }
+    }
+  }, [props.value]);
+
+  const handleChange = (value: any) => {
+    console.log(value);
+    props.handleChange(value);
+  };
+
+  const handleChangeBackground = (value: any) => {
+    const _value = { ...props.value };
+    _value.background = value;
+    console.log(_value);
+    props.handleChange(_value);
+  };
+
+  const elementId = newId();
+
+  return (
+    <>
+      <MetaDetails
+        isActive={isEditOpen}
+        handleChange={handleChange}
+        value={props.value}
+        deactivate={() => setIsEditOpen(false)}
+      />
+
+      <BackgroundView
+        value={props.value.background}
+        handleChange={handleChangeBackground}
+        handleEditRequest={() => setIsEditOpen(true)}
+      >
+        <div className="elements-site-viewbox">
+          <div className={getSplitSectionClass(props.value.proportion)}>
+            <div
+              className={getContentClass(
+                props.value.left.height,
+                props.value.left.position
+              )}
+            >
+              <div className="elements-site__content__textblock">
+                <ContentBuilder
+                  position={props.value.left.position}
+                  padding={props.value.left.padding}
+                  supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
+                  value={props.value.left.content}
+                  handleChange={handleContentLeftChange}
+                />
+              </div>
+            </div>
+            <div
+              className={getContentClass(
+                props.value.right.height,
+                props.value.right.position
+              )}
+            >
+              <div className="elements-site__content__textblock">
+                <ContentBuilder
+                  position={props.value.right.position}
+                  padding={props.value.right.padding}
+                  supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
+                  value={props.value.right.content}
+                  handleChange={handleContentRightChange}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </BackgroundView>
+    </>
+  );
+};
+
+export default SplitContentEditor;

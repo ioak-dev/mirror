@@ -3,8 +3,8 @@ import { createPopper } from '@popperjs/core';
 
 import './style.scss';
 import RichTextControlType from '../RichTextEditor/RichTextControlType';
-import { newId } from '../../utils/BasicUtil';
-import OakButton from '../../../oakui/wc/OakButton';
+import { newId } from '../../../utils/BasicUtil';
+import OakButton from '../../../../oakui/wc/OakButton';
 
 interface Props {
   toolbar?: boolean;

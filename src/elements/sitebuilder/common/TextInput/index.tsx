@@ -98,7 +98,7 @@ const TextInput = (props: Props) => {
         handleClose={() => setIsOpen(false)}
         heading="Edit text block"
         width="medium"
-        height="medium"
+        height="auto"
       >
         <div slot="body">
           <div className="">

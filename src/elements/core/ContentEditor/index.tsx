@@ -231,7 +231,7 @@ const ContentEditor = (props: Props) => {
     if (props.fixed) {
       return [];
     }
-    
+
     if (index === 0 && dataRef?.current?.length === 1) {
       return [NavigationActionType.NEW, NavigationActionType.DELETE];
     }
@@ -323,22 +323,8 @@ const ContentEditor = (props: Props) => {
             />
           )}
         </div>
-        // <OakEditorBlock
-        //   outline={props.outline}
-        //   groupId={groupId}
-        //   key={block.id}
-        //   block={block}
-        //   handleChange={(text: any) => handleChange(block, text)}
-        //   setBlockType={(type: BlockType) => setBlockType(block, type)}
-        //   add={() => add(block)}
-        //   remove={() => remove(block)}
-        //   moveUp={() => moveUp(block)}
-        //   moveDown={() => moveDown(block)}
-        //   fixed={props.fixed}
-        // />
       ))}
       {!props.fixed && (!dataRef?.current || dataRef?.current?.length === 0) && (
-        // <ActionButton handleClick={add}>Add section</ActionButton>
         <OakButton shape="sharp" theme="default" handleClick={add}>
           Add section
         </OakButton>

@@ -7,6 +7,7 @@ import BackgroundView from '../../common/BackgroundView';
 import {
   getContentClass,
   getSplitSectionClass,
+  getSplitSectionContentClass,
 } from '../../SitebuilderService';
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
   placeholder?: string;
 }
 const SplitSectionEditor = (props: Props) => {
-  const [isLeftEditOpen, setIsLeftEditOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRightEditOpen, setIsRightEditOpen] = useState(false);
 
   const handleContentLeftChange = (content: any) => {
@@ -30,11 +31,8 @@ const SplitSectionEditor = (props: Props) => {
     props.handleChange(_value);
   };
 
-  const handleLeftMetaChange = (value: any) => {
-    const _value = { ...props.value };
-    _value.left = value;
-    _value.right = { ..._value.right, height: value.height };
-    props.handleChange(_value);
+  const handleChange = (value: any) => {
+    props.handleChange(value);
   };
 
   const handleRightMetaChange = (value: any) => {
@@ -71,16 +69,10 @@ const SplitSectionEditor = (props: Props) => {
   return (
     <>
       <MetaDetails
-        isActive={isLeftEditOpen}
-        handleChange={handleLeftMetaChange}
-        value={props.value.left}
-        deactivate={() => setIsLeftEditOpen(false)}
-      />
-      <MetaDetails
-        isActive={isRightEditOpen}
-        handleChange={handleRightMetaChange}
-        value={props.value.right}
-        deactivate={() => setIsRightEditOpen(false)}
+        isActive={isEditOpen}
+        handleChange={handleChange}
+        value={props.value}
+        deactivate={() => setIsEditOpen(false)}
       />
 
       <div className={getSplitSectionClass(props.value.proportion)}>
@@ -88,19 +80,24 @@ const SplitSectionEditor = (props: Props) => {
           <BackgroundView
             value={props.value.left.background}
             handleChange={handleChangeLeftBackground}
-            handleEditRequest={() => setIsLeftEditOpen(true)}
+            handleResizeDown={
+              props.value.proportion < 3 ? handleResizeDown : null
+            }
             split
           >
             <div
-              className={getContentClass(
+              className={`${getSplitSectionContentClass(
+                props.value.proportion,
+                'left'
+              )} ${getContentClass(
                 props.value.left.height,
                 props.value.left.position
-              )}
+              )}`}
             >
               <div className="elements-site__content__textblock">
                 <ContentBuilder
                   position={props.value.left.position}
-                  bleed={props.value.left.bleed}
+                  padding={props.value.left.padding}
                   supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
                   value={props.value.left.content}
                   handleChange={handleContentLeftChange}
@@ -113,23 +110,24 @@ const SplitSectionEditor = (props: Props) => {
           <BackgroundView
             value={props.value.right.background}
             handleChange={handleChangeRightBackground}
-            handleEditRequest={() => setIsRightEditOpen(true)}
+            handleEditRequest={() => setIsEditOpen(true)}
             handleResizeUp={props.value.proportion > -3 ? handleResizeUp : null}
-            handleResizeDown={
-              props.value.proportion < 3 ? handleResizeDown : null
-            }
+            resizeControlPosition="left"
             split
           >
             <div
-              className={getContentClass(
+              className={`${getSplitSectionContentClass(
+                props.value.proportion,
+                'right'
+              )} ${getContentClass(
                 props.value.right.height,
                 props.value.right.position
-              )}
+              )}`}
             >
               <div className="elements-site__content__textblock">
                 <ContentBuilder
                   position={props.value.right.position}
-                  bleed={props.value.right.bleed}
+                  padding={props.value.right.padding}
                   supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
                   value={props.value.right.content}
                   handleChange={handleContentRightChange}

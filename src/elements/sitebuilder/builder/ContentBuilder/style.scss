@@ -1,0 +1,35 @@
+.content-builder {
+  // position: relative;
+}
+// .content-builder__container {
+//   padding-bottom: 30px;
+//   border-bottom: 1px dotted #58687f;
+// }
+// .content-builder__control--not-empty {
+//   position: absolute;
+//   bottom: -13px;
+//   right: 10px;
+// }
+
+// .content-builder__control--empty {
+//   display: flex;
+//   align-content: center;
+//   align-items: center;
+// }
+
+// .content-builder__control--empty.content-builder__control--align-left {
+//   justify-content: flex-start;
+//   justify-items: flex-start;
+// }
+// .content-builder__control--empty.content-builder__control--align-center {
+//   justify-content: center;
+//   justify-items: center;
+// }
+// .content-builder__control--empty.content-builder__control--align-right {
+//   justify-content: flex-end;
+//   justify-items: flex-end;
+// }
+
+.content-builder__control {
+  margin-top: 20px;
+}

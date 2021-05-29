@@ -15,6 +15,7 @@ import {
   getBackgroundStyle,
   getOverlay,
 } from '../../SitebuilderService';
+import ControlButton from '../ControlButton';
 
 interface Props {
   value: any;
@@ -24,6 +25,8 @@ interface Props {
   handleResizeDown?: any;
   children: any;
   split?: boolean;
+  controlPosition?: 'left' | 'right';
+  resizeControlPosition?: 'left' | 'right';
 }
 const BackgroundView = (props: Props) => {
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState(false);
@@ -79,41 +82,55 @@ const BackgroundView = (props: Props) => {
           className="elements-site__background__overlay"
           id={`overlay-${elementId}`}
         >
-          <div className="background-view__action">
-            {props.handleResizeDown && (
-              <OakButton
-                shape="sharp"
-                theme="default"
-                handleClick={props.handleResizeDown}
-              >
+          <div className="background-view__action background-view__action--left">
+            {props.handleResizeDown && props.resizeControlPosition === 'left' && (
+              <ControlButton handleClick={props.handleResizeDown} circle>
                 <FontAwesomeIcon icon={faLongArrowAltLeft} />
-              </OakButton>
+              </ControlButton>
             )}
-            {props.handleResizeUp && (
-              <OakButton
-                shape="sharp"
-                theme="default"
-                handleClick={props.handleResizeUp}
-              >
+            {props.handleResizeUp && props.resizeControlPosition === 'left' && (
+              <ControlButton handleClick={props.handleResizeUp} circle>
                 <FontAwesomeIcon icon={faLongArrowAltRight} />
-              </OakButton>
+              </ControlButton>
             )}
-            {props.handleEditRequest && (
-              <OakButton
-                shape="sharp"
-                theme="default"
-                handleClick={handleEditRequest}
-              >
+            {props.handleEditRequest && props.controlPosition === 'left' && (
+              <ControlButton handleClick={handleEditRequest} circle>
                 <FontAwesomeIcon icon={faCog} />
-              </OakButton>
+              </ControlButton>
             )}
-            <OakButton
-              shape="sharp"
-              theme="default"
-              handleClick={() => setIsChangeBackgroundOpen(true)}
-            >
-              <FontAwesomeIcon icon={faImage} />
-            </OakButton>
+            {props.controlPosition === 'left' && (
+              <ControlButton
+                handleClick={() => setIsChangeBackgroundOpen(true)}
+                circle
+              >
+                <FontAwesomeIcon icon={faImage} />
+              </ControlButton>
+            )}
+          </div>
+          <div className="background-view__action background-view__action--right">
+            {props.handleEditRequest && props.controlPosition !== 'left' && (
+              <ControlButton handleClick={handleEditRequest} circle>
+                <FontAwesomeIcon icon={faCog} />
+              </ControlButton>
+            )}
+            {props.controlPosition !== 'left' && (
+              <ControlButton
+                handleClick={() => setIsChangeBackgroundOpen(true)}
+                circle
+              >
+                <FontAwesomeIcon icon={faImage} />
+              </ControlButton>
+            )}
+            {props.handleResizeDown && props.resizeControlPosition !== 'left' && (
+              <ControlButton handleClick={props.handleResizeDown} circle>
+                <FontAwesomeIcon icon={faLongArrowAltLeft} />
+              </ControlButton>
+            )}
+            {props.handleResizeUp && props.resizeControlPosition !== 'left' && (
+              <ControlButton handleClick={props.handleResizeUp} circle>
+                <FontAwesomeIcon icon={faLongArrowAltRight} />
+              </ControlButton>
+            )}
           </div>
           {props.children}
         </div>

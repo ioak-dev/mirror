@@ -1,0 +1,42 @@
+.elements-site__grid-section__container__new {
+  border: 1px dotted #cdd1d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  min-width: 100px;
+}
+.elements-site__grid-section__container__new__button {
+  background-color: transparent;
+  color: #cdd1d6;
+  border: none;
+  box-shadow: none;
+  height: 60px;
+  width: 60px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 4px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 60px;
+  border: 1px solid #cdd1d6;
+  svg {
+    width: 24px !important;
+  }
+  svg path {
+    fill: #cdd1d6;
+    transition: fill 250ms ease-in-out;
+  }
+  cursor: pointer;
+  transition: color 250ms ease-in-out, background-color 250ms ease-in-out,
+    border-color 250ms ease-in-out;
+}
+
+.grid-section-editor__item {
+  position: relative;
+}
+.grid-section-editor__item__action {
+  position: absolute;
+  bottom: -13px;
+  right: 10px;
+}

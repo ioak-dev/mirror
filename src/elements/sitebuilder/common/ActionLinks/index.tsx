@@ -10,16 +10,17 @@ import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import OakInput from '../../../../oakui/wc/OakInput';
 import ActionButton from '../ActionButton';
 import OakCheckbox from '../../../../oakui/wc/OakCheckbox';
+import ControlButton from '../ControlButton';
 
 interface Props {
   block: any;
   handleChange: any;
+  handleDelete: any;
   align: 'left' | 'right' | 'center';
 }
 
 const ActionLinks = (props: Props) => {
   const [elementId, setElementId] = useState(newId());
-  const [openCommonSetting, setOpenCommonSetting] = useState(false);
   const [groupId, setGroupId] = useState<any>(newId());
   const [action, setAction] = useState<any>(null);
   const handleClick = (_action: any) => {
@@ -66,37 +67,30 @@ const ActionLinks = (props: Props) => {
     setAction(null);
   };
 
+  const handleDeleteAll = () => {
+    props.handleDelete(props.block.id);
+  };
+
   return (
     <>
-      <div
-        className={`elements-site__action elements-site__action--align-${props.align}`}
-      >
-        {props.block.data.items?.map((item: any) => (
-          <ActionButton
-            key={item.id}
-            handleClick={() => handleClick(item)}
-            meta={props.block.meta}
-            item={item}
-          >
-            {item.label}
-          </ActionButton>
-        ))}
-        <OakButton
-          variant="outline"
-          shape="sharp"
-          theme="default"
-          handleClick={addNew}
+      <div className="action-links">
+        <div
+          className={`action-links__container elements-site__action elements-site__action--align-${props.align}`}
         >
-          <FontAwesomeIcon icon={faPlus} />
-        </OakButton>
-        <OakButton
-          variant="outline"
-          shape="sharp"
-          theme="default"
-          handleClick={() => setOpenCommonSetting(true)}
-        >
-          <FontAwesomeIcon icon={faCog} />
-        </OakButton>
+          {props.block.data.items?.map((item: any) => (
+            <ActionButton
+              key={item.id}
+              handleClick={() => handleClick(item)}
+              meta={props.block.meta}
+              item={item}
+            >
+              {item.label}
+            </ActionButton>
+          ))}
+          <ControlButton handleClick={addNew} circle>
+            <FontAwesomeIcon icon={faPlus} />
+          </ControlButton>
+        </div>
       </div>
       {/* {props.edit && ( */}
       <OakModal
@@ -106,121 +100,146 @@ const ActionLinks = (props: Props) => {
       >
         {action && (
           <div slot="body">
-            <OakInput
-              name="label"
-              value={action.label}
+            <div className="site-modal-section__root">
+              <div className="site-modal-section">
+                <div className="site-modal-section__title">Button settings</div>
+                <OakInput
+                  name="label"
+                  value={action.label}
+                  shape="sharp"
+                  handleInput={handleChange}
+                  label="Label"
+                  gutterBottom
+                />
+                <OakInput
+                  name="url"
+                  value={action.url}
+                  shape="sharp"
+                  handleInput={handleChange}
+                  label="URL"
+                  gutterBottom
+                />
+                <OakRadioGroup
+                  name="color"
+                  radioGroupName={`color-${groupId}`}
+                  value={action.color}
+                  label="Color"
+                  handleChange={handleChange}
+                  gutterBottom
+                >
+                  <OakRadio name="default" radioGroupName={`color-${groupId}`}>
+                    Default
+                  </OakRadio>
+                  <OakRadio name="primary" radioGroupName={`color-${groupId}`}>
+                    Primary
+                  </OakRadio>
+                  <OakRadio
+                    name="secondary"
+                    radioGroupName={`color-${groupId}`}
+                  >
+                    Secondary
+                  </OakRadio>
+                  <OakRadio name="custom" radioGroupName={`color-${groupId}`}>
+                    Custom
+                  </OakRadio>
+                </OakRadioGroup>
+                {action.color === 'custom' && (
+                  <OakInput
+                    type="color"
+                    name="hex"
+                    value={action.hex}
+                    shape="sharp"
+                    handleInput={handleChange}
+                    label="Custom color"
+                    gutterBottom
+                  />
+                )}
+                <OakRadioGroup
+                  name="variant"
+                  radioGroupName={`variant-${groupId}`}
+                  value={action.variant}
+                  label="Variation"
+                  handleChange={handleChange}
+                  gutterBottom
+                >
+                  <OakRadio
+                    name="regular"
+                    radioGroupName={`variant-${groupId}`}
+                  >
+                    Regular
+                  </OakRadio>
+                  <OakRadio name="appear" radioGroupName={`variant-${groupId}`}>
+                    Background appears on hover
+                  </OakRadio>
+                  <OakRadio
+                    name="disappear"
+                    radioGroupName={`variant-${groupId}`}
+                  >
+                    Background disappears on hover
+                  </OakRadio>
+                </OakRadioGroup>
+                <OakCheckbox
+                  name="rounded"
+                  value={props.block.meta.rounded}
+                  handleChange={handleMetaChange}
+                  gutterBottom
+                >
+                  Rounded
+                </OakCheckbox>
+              </div>
+              <div className="site-modal-section">
+                <div className="site-modal-section__title">Common settings</div>
+                <OakRadioGroup
+                  name="size"
+                  radioGroupName={`size-${groupId}`}
+                  value={props.block.meta.size}
+                  label="Size"
+                  handleChange={handleMetaChange}
+                  gutterBottom
+                >
+                  <OakRadio name="small" radioGroupName={`size-${groupId}`}>
+                    Small
+                  </OakRadio>
+                  <OakRadio name="medium" radioGroupName={`size-${groupId}`}>
+                    Medium
+                  </OakRadio>
+                  <OakRadio name="large" radioGroupName={`size-${groupId}`}>
+                    Large
+                  </OakRadio>
+                </OakRadioGroup>
+                <OakCheckbox
+                  name="rounded"
+                  value={props.block.meta.rounded}
+                  handleChange={handleMetaChange}
+                  gutterBottom
+                >
+                  Rounded
+                </OakCheckbox>
+              </div>
+            </div>
+          </div>
+        )}
+        <div slot="footer">
+          <div className="site-modal-section-footer">
+            <OakButton
               shape="sharp"
-              handleInput={handleChange}
-              label="Label"
-              gutterBottom
-            />
-            <OakInput
-              name="url"
-              value={action.url}
-              shape="sharp"
-              handleInput={handleChange}
-              label="URL"
-              gutterBottom
-            />
-            <OakRadioGroup
-              name="color"
-              radioGroupName={`color-${groupId}`}
-              value={action.color}
-              label="Color"
-              handleChange={handleChange}
-              gutterBottom
+              theme="default"
+              handleClick={() => setAction(null)}
             >
-              <OakRadio name="default" radioGroupName={`color-${groupId}`}>
-                Default
-              </OakRadio>
-              <OakRadio name="primary" radioGroupName={`color-${groupId}`}>
-                Primary
-              </OakRadio>
-              <OakRadio name="secondary" radioGroupName={`color-${groupId}`}>
-                Secondary
-              </OakRadio>
-              <OakRadio name="custom" radioGroupName={`color-${groupId}`}>
-                Custom
-              </OakRadio>
-            </OakRadioGroup>
-            {action.color === 'custom' && (
-              <OakInput
-                type="color"
-                name="hex"
-                value={action.hex}
-                shape="sharp"
-                handleInput={handleChange}
-                label="Custom color"
-                gutterBottom
-              />
-            )}
-            <OakRadioGroup
-              name="variant"
-              radioGroupName={`variant-${groupId}`}
-              value={action.variant}
-              label="Variation"
-              handleChange={handleChange}
-              gutterBottom
-            >
-              <OakRadio name="regular" radioGroupName={`variant-${groupId}`}>
-                Regular
-              </OakRadio>
-              <OakRadio name="appear" radioGroupName={`variant-${groupId}`}>
-                Background appears on hover
-              </OakRadio>
-              <OakRadio name="disappear" radioGroupName={`variant-${groupId}`}>
-                Background disappears on hover
-              </OakRadio>
-            </OakRadioGroup>
-            <OakCheckbox
-              name="rounded"
-              value={props.block.meta.rounded}
-              handleChange={handleMetaChange}
-              gutterBottom
-            >
-              Rounded
-            </OakCheckbox>
+              Close
+            </OakButton>
             <OakButton shape="sharp" theme="danger" handleClick={handleDelete}>
               Delete
             </OakButton>
-          </div>
-        )}
-      </OakModal>
-      <OakModal
-        isOpen={openCommonSetting}
-        handleClose={() => setOpenCommonSetting(false)}
-        heading="Action settings"
-      >
-        {props.block && (
-          <div slot="body">
-            <OakRadioGroup
-              name="size"
-              radioGroupName={`size-${groupId}`}
-              value={props.block.meta.size}
-              label="Size"
-              handleChange={handleMetaChange}
-              gutterBottom
+            <OakButton
+              shape="sharp"
+              theme="danger"
+              handleClick={handleDeleteAll}
             >
-              <OakRadio name="small" radioGroupName={`size-${groupId}`}>
-                Small
-              </OakRadio>
-              <OakRadio name="medium" radioGroupName={`size-${groupId}`}>
-                Medium
-              </OakRadio>
-              <OakRadio name="large" radioGroupName={`size-${groupId}`}>
-                Large
-              </OakRadio>
-            </OakRadioGroup>
-            <OakCheckbox
-              name="rounded"
-              value={props.block.meta.rounded}
-              handleChange={handleMetaChange}
-              gutterBottom
-            >
-              Rounded
-            </OakCheckbox>
+              Delete all
+            </OakButton>
           </div>
-        )}
+        </div>
       </OakModal>
     </>
   );

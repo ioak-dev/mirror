@@ -12,10 +12,12 @@ import OakModal from '../../../../oakui/wc/OakModal';
 import OakRadio from '../../../../oakui/wc/OakRadio';
 import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import ActionButton from '../../../core/common/ActionButton';
+import ControlButton from '../../common/ControlButton';
 import {
   getContentRootClass,
   getTextAlignment,
 } from '../../SitebuilderService';
+import ImageContainer from '../../common/ImageContainer';
 
 interface Props {
   value: any;
@@ -31,11 +33,15 @@ interface Props {
     | 'bottom-left'
     | 'bottom-right'
     | 'bottom-center';
-  bleed: 'none' | 'small' | 'medium' | 'large';
+  padding: 'none' | 'small' | 'medium' | 'large';
 }
 const ContentBuilder = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupId, setGroupId] = useState(newId());
+
+  useEffect(() => {
+    console.log(props.value);
+  }, [props.value]);
 
   const handleChange = (item: any) => {
     const index = props.value.findIndex((_item: any) => item.id === _item.id);
@@ -74,6 +80,21 @@ const ContentBuilder = (props: Props) => {
             fontsize: 'medium',
           },
         };
+      case ContentType.IMAGE:
+        return {
+          id: newId(),
+          type,
+          source: 'UNSPLASH',
+          data: {
+            urls: {
+              regular:
+                'https://images.unsplash.com/photo-1516737488405-7b6d6868fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw0fHxiYWxsZXR8ZW58MHwwfHx8MTYyMTMzODkyNA&ixlib=rb-1.2.1&q=80&w=1080',
+            },
+          },
+          meta: {
+            overlay: 'low',
+          },
+        };
       case ContentType.ACTION:
         return {
           id: newId(),
@@ -101,36 +122,53 @@ const ContentBuilder = (props: Props) => {
 
   return (
     <>
-      <div className={getContentRootClass(props.position, props.bleed)}>
-        {props.value.map((item: any) => (
-          <div key={item.id}>
-            {item.type === ContentType.TEXT && (
-              <TextInput
-                block={item}
-                handleChange={handleChange}
-                handleDelete={handleDelete}
-                placeholder="Enter text"
-                align={getTextAlignment(props.position)}
-              />
-            )}
-            {item.type === ContentType.ACTION && (
-              <ActionLinks
-                block={item}
-                handleChange={handleChange}
-                align={getTextAlignment(props.position)}
-              />
-            )}
-          </div>
-        ))}
-        <ActionButton handleClick={() => setIsOpen(true)}>
-          <FontAwesomeIcon icon={faPlus} />
-        </ActionButton>
+      <div className="content-builder">
+        {/* {props.value?.length > 0 && ( */}
+        <div
+          className={`content-builder__container ${getContentRootClass(
+            props.position,
+            props.padding
+          )}`}
+        >
+          {props.value.map((item: any) => (
+            <div key={item.id}>
+              {item.type === ContentType.TEXT && (
+                <TextInput
+                  block={item}
+                  handleChange={handleChange}
+                  handleDelete={handleDelete}
+                  placeholder="Enter text"
+                  align={getTextAlignment(props.position)}
+                />
+              )}
+              {item.type === ContentType.IMAGE && (
+                <ImageContainer
+                  block={item}
+                  handleChange={handleChange}
+                  align={getTextAlignment(props.position)}
+                />
+              )}
+              {item.type === ContentType.ACTION && (
+                <ActionLinks
+                  handleDelete={handleDelete}
+                  block={item}
+                  handleChange={handleChange}
+                  align={getTextAlignment(props.position)}
+                />
+              )}
+            </div>
+          ))}
+          <ControlButton handleClick={() => setIsOpen(true)}>
+            Add Content
+          </ControlButton>
+        </div>
+        {/* )} */}
       </div>
       <OakModal
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
         width="small"
-        heading="Choose content type"
+        heading="Add new content"
       >
         <div slot="body">
           <div className="elements-site__content-root__type-selection">

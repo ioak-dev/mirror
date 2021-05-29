@@ -4,7 +4,7 @@ import { newId } from '../../../events/MessageService';
 import HeroSection from './Section/HeroSection';
 import AddSectionPrompt from './AddSectionPrompt';
 import Section from './Section';
-import HeroEditor from '../../../elements/sitebuilder/editor/HeroEditor';
+import SingleSectionEditor from '../../../elements/sitebuilder/editor/SingleSectionEditor';
 
 interface Props {
   assetData: any;
@@ -48,7 +48,7 @@ const SiteBuilder = (props: Props) => {
           handleChange={handleHeroChange}
         /> */}
         {props.assetData.hero.background && (
-          <HeroEditor
+          <SingleSectionEditor
             handleChange={handleHeroChange}
             value={props.assetData.hero}
           />

@@ -1,0 +1,12 @@
+.grid-section-item {
+  position: relative;
+  border: 1px solid grey;
+}
+.grid-section-item__action {
+  position: absolute;
+  bottom: -13px;
+  right: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 6px;
+}

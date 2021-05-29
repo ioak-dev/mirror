@@ -1,0 +1,18 @@
+.site-modal-section__root {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 30px;
+}
+.site-modal-section__title {
+  font-size: 16px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px dashed grey;
+}
+.site-modal-section-footer {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}

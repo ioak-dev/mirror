@@ -7,9 +7,13 @@ const tinycolor = require('tinycolor2');
 export const toHtml = (blocks: any[]) => {
   let res = '';
   blocks.forEach((block) => {
+    console.log(block);
     switch (block.type) {
       case SectionType.SINGLE_SECTION:
-        res += getHtmlForSingleSection(block);
+        res += getHtmlForSingleSectionEditor(block);
+        break;
+      case SectionType.SPLIT_SECTION:
+        res += getHtmlForSplitSection(block);
         break;
       default:
         break;
@@ -18,12 +22,51 @@ export const toHtml = (blocks: any[]) => {
   return res;
 };
 
-const getHtmlForSingleSection = (block: any) => {
+const getHtmlForSplitSection = (block: any) => {
+  let leftContent = `<div
+          class="${getContentClass(block.left.height, block.left.position)}"
+        >`;
+  leftContent += "<div class='elements-site__content__textblock'>";
+  leftContent += getContent(
+    block.left.content,
+    block.left.position,
+    block.left.padding
+  );
+  leftContent += '</div>';
+  leftContent += '</div>';
+  const left = getBackgroundView(block.left.background, leftContent, true);
+
+  let rightContent = `<div
+          class="${getContentClass(block.right.height, block.right.position)}"
+        >`;
+  rightContent += "<div class='elements-site__content__textblock'>";
+  rightContent += getContent(
+    block.right.content,
+    block.right.position,
+    block.right.padding
+  );
+  rightContent += '</div>';
+  rightContent += '</div>';
+  const right = getBackgroundView(block.right.background, rightContent, true);
+
+  let result = `<div class="${getSplitSectionClass(block.proportion)}">`;
+  result += '<div>';
+  result += left;
+  result += '</div>';
+  result += '<div>';
+  result += right;
+  result += '</div>';
+  result += '</div>';
+  console.log(result);
+  return result;
+};
+
+const getHtmlForSingleSectionEditor = (block: any) => {
   let content = `<div
           class="${getContentClass(block.height, block.position)}"
         >`;
-  content += "<div className='elements-site__content__textblock'>";
-  content += getContent(block.content, block.position, block.bleed);
+  content += "<div class='elements-site__content__textblock'>";
+  content += getContent(block.content, block.position, block.padding);
   content += '</div>';
   content += '</div>';
   const result = getBackgroundView(block.background, content);
@@ -42,9 +85,9 @@ const getContent = (
     | 'bottom-left'
     | 'bottom-center'
     | 'bottom-right',
-  bleed: 'none' | 'small' | 'medium' | 'large'
+  padding: 'none' | 'small' | 'medium' | 'large'
 ) => {
-  let res = `<div className="${getContentRootClass(position, bleed)}">`;
+  let res = `<div class="${getContentRootClass(position, padding)}">`;
   content.forEach((item) => {
     switch (item.type) {
       case ContentType.TEXT:
@@ -132,7 +175,9 @@ export const getActionButtonStyle = (meta: any, item: any) => {
   };
   if (item.color === 'custom') {
     const backgroundColor = tinycolor(item.hex || '#000');
-    const backgroundColorHover = backgroundColor.clone().darken(7);
+    const backgroundColorHover = backgroundColor.isLight()
+      ? backgroundColor.clone().darken(7)
+      : backgroundColor.clone().lighten(7);
     const color = backgroundColor.isLight() ? '#000' : '#fff';
     const colorHover = backgroundColorHover.isLight() ? '#000' : '#fff';
     res = {
@@ -145,11 +190,11 @@ export const getActionButtonStyle = (meta: any, item: any) => {
   return res;
 };
 
-const getBackgroundView = (value: any, children: string) => {
+const getBackgroundView = (value: any, children: string, split?: boolean) => {
   const computedStyles = getBackgroundStyle(value);
   let result = `<div class="${getBackgroundClass(
     value.meta.parallax,
-    false
+    split || false
   )}" style="background-image:${
     computedStyles.backgroundImage
   }; background-color:${computedStyles.backgroundColor};">`;
@@ -273,9 +318,9 @@ export const getContentRootClass = (
     | 'bottom-left'
     | 'bottom-center'
     | 'bottom-right',
-  bleed: 'none' | 'small' | 'medium' | 'large'
+  padding: 'none' | 'small' | 'medium' | 'large'
 ) => {
-  let res = `elements-site__content-root elements-site__content-root--position-${position} elements-site__content-root--bleed-${bleed}`;
+  let res = `elements-site__content-root elements-site__content-root--position-${position} elements-site__content-root--padding-${padding}`;
   res += ` elements-site__content-root--align-${getTextAlignment(position)}`;
   return res;
 };
@@ -296,9 +341,73 @@ export const getContentClass = (
   return `elements-site__content elements-site__content--height-${height} elements-site__content--position-${position}`;
 };
 
+export const getGridSectionClass = () => {
+  let res = 'elements-site__grid-section';
+  res += '';
+  return res;
+};
+
+export const getGridSectionItemRootClass = (margin: string) => {
+  let res = 'elements-site__grid-section__item__root';
+  res += ` elements-site__grid-section__item__root--margin-${margin}`;
+  return res;
+};
+
+export const getGridSectionItemClass = (
+  color: string,
+  hex: string,
+  padding: string
+) => {
+  let res = 'elements-site__grid-section__item';
+  res += ` elements-site__grid-section__item--color-${color}`;
+  res += ` elements-site__grid-section__item--padding-${padding}`;
+  return res;
+};
+
+export const getGridSectionItemStyle = (color: string, hex: string) => {
+  const res: any = {
+    color: null,
+  };
+  if (color === 'custom') {
+    res.color = hex;
+  }
+  return res;
+};
+
+export const getImageContainerClass = (align: 'left' | 'center' | 'right') => {
+  let res = 'elements-site__image-container';
+  res += ` elements-site__image-container--align-${align}`;
+  return res;
+};
+
+export const getImageContainerImgClass = () => {
+  let res = `elements-site__image-container__img`;
+  res += '';
+  return res;
+};
+
+export const getGridSectionContainerClass = (
+  layout: 'single-column' | 'three-column' | 'four-column'
+) => {
+  let res = 'elements-site__grid-section__container';
+  res += ` elements-site__grid-section__container--layout-${layout}`;
+  return res;
+};
+
 export const getSplitSectionClass = (proportion: number) => {
   let res = 'elements-site__split-section';
   res += ` elements-site__split-section--proportion-${
+    proportion > 0 ? `p${proportion}` : `m${0 - proportion}`
+  }`;
+  return res;
+};
+
+export const getSplitSectionContentClass = (
+  proportion: number,
+  side?: 'left' | 'right'
+) => {
+  let res = `elements-site__split-section__content__${side}`;
+  res += ` elements-site__split-section__content__${side}--proportion-${
     proportion > 0 ? `p${proportion}` : `m${0 - proportion}`
   }`;
   return res;

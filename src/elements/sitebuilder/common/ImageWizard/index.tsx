@@ -58,8 +58,8 @@ const ImageWizard = (props: Props) => {
     <OakModal
       isOpen={props.isActive}
       handleClose={props.deactivate}
-      height="large"
-      width="large"
+      height="auto"
+      width="medium"
       heading={props.heading}
     >
       <div slot="body">

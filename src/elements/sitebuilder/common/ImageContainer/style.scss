@@ -1,0 +1,13 @@
+.image-container {
+}
+.image-container__container {
+  position: relative;
+}
+.image-container__control {
+  position: absolute;
+  bottom: -13px;
+  right: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 6px;
+}

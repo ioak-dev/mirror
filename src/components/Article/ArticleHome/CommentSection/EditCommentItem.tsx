@@ -4,7 +4,6 @@ import {
   ArticleComment,
   ArticleCommentPayload,
 } from '../../../../types/graphql';
-import OakEditor from '../../../../oakui/OakEditor';
 import { UPDATE_ARTICLE_COMMENT } from '../../../Types/ArticleSchema';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../../Utils';
 import OakButton from '../../../../oakui/wc/OakButton';

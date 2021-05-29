@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import OakEditor from '../../../oakui/OakEditor';
 import { LIST_ARTICLE_CATEGORIES } from '../../Types/ArticleSchema';
 import TagEditor from '../../ui/tag/TagEditor';
 import OakSelect from '../../../oakui/wc/OakSelect';

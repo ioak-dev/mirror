@@ -1,0 +1,58 @@
+.control-button {
+  background-color: #cdd1d6;
+  color: #0f0f0f;
+  border: none;
+  box-shadow: none;
+  height: 26px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 4px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+
+  svg {
+    width: 14px !important;
+  }
+  svg path {
+    fill: #0f0f0f;
+    transition: fill 250ms ease-in-out;
+  }
+  cursor: pointer;
+  transition: color 250ms ease-in-out, background-color 250ms ease-in-out,
+    border-color 250ms ease-in-out;
+}
+.control-button--circle {
+  width: 26px;
+  padding: 0;
+}
+.control-button:hover,
+.control-button:focus {
+  background-color: #e9ebed;
+  color: #0f0f0f;
+  svg path {
+    fill: #0f0f0f;
+  }
+}
+.control-button--subtle {
+  background-color: #434f61;
+  color: #fcfcfc;
+  svg path {
+    fill: #fcfcfc;
+  }
+}
+.control-button--subtle:hover,
+.control-button--subtle:focus {
+  background-color: #58687f;
+  color: #fcfcfc;
+  svg path {
+    fill: #fcfcfc;
+  }
+}
+.control-button:focus {
+  outline: auto;
+}

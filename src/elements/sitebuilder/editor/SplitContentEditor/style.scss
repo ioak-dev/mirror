@@ -1,0 +1,12 @@
+.split-content-editor {
+  position: relative;
+  width: 100%;
+}
+.split-content-editor__control-left {
+  position: absolute;
+  top: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 10px;
+  left: 10px;
+}
