@@ -6,9 +6,12 @@ import ContentType from '../../builder/ContentBuilder/ContentType';
 import BackgroundView from '../../common/BackgroundView';
 import {
   getContentClass,
+  getContentContainerClass,
   getSplitSectionClass,
   getSplitSectionContentClass,
 } from '../../SitebuilderService';
+import SingleSectionEditor from '../SingleSectionEditor';
+import ContentFrameGroup from '../../common/ContentFrameGroup';
 
 interface Props {
   value: any;
@@ -28,6 +31,13 @@ const SplitSectionEditor = (props: Props) => {
   const handleContentRightChange = (content: any) => {
     const _value = { ...props.value };
     _value.right.content = content;
+    props.handleChange(_value);
+  };
+
+  const handleSectionChange = (value: any, pos: 'left' | 'right') => {
+    const _value = { ...props.value };
+    _value[pos] = value;
+    // _value.left = { ..._value.left, height: value.height };
     props.handleChange(_value);
   };
 
@@ -80,29 +90,28 @@ const SplitSectionEditor = (props: Props) => {
           <BackgroundView
             value={props.value.left.background}
             handleChange={handleChangeLeftBackground}
-            handleResizeDown={
-              props.value.proportion < 3 ? handleResizeDown : null
+            handleResizeUp={
+              props.value.proportion > -3 ? () => handleResizeUp() : null
             }
+            resizeControlPosition="right"
             split
           >
             <div
-              className={`${getSplitSectionContentClass(
-                props.value.proportion,
+              className={getContentContainerClass(
+                props.value.height,
+                props.value.left.verticalPosition,
                 'left'
-              )} ${getContentClass(
-                props.value.left.height,
-                props.value.left.position
-              )}`}
+              )}
             >
-              <div className="elements-site__content__textblock">
-                <ContentBuilder
-                  position={props.value.left.position}
-                  padding={props.value.left.padding}
-                  supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
-                  value={props.value.left.content}
-                  handleChange={handleContentLeftChange}
-                />
-              </div>
+              <ContentFrameGroup
+                horizontalPosition={props.value.left.horizontalPosition}
+                layout={props.value.left.layout}
+                gap={props.value.left.gap}
+                gridWidth={props.value.left.gridWidth}
+                expandToFill={props.value.left.expandToFill}
+                content={props.value.left.content}
+                handleChange={handleContentLeftChange}
+              />
             </div>
           </BackgroundView>
         </div>
@@ -111,28 +120,28 @@ const SplitSectionEditor = (props: Props) => {
             value={props.value.right.background}
             handleChange={handleChangeRightBackground}
             handleEditRequest={() => setIsEditOpen(true)}
-            handleResizeUp={props.value.proportion > -3 ? handleResizeUp : null}
+            handleResizeDown={
+              props.value.proportion < 3 ? () => handleResizeDown() : null
+            }
             resizeControlPosition="left"
             split
           >
             <div
-              className={`${getSplitSectionContentClass(
-                props.value.proportion,
+              className={getContentContainerClass(
+                props.value.height,
+                props.value.right.verticalPosition,
                 'right'
-              )} ${getContentClass(
-                props.value.right.height,
-                props.value.right.position
-              )}`}
+              )}
             >
-              <div className="elements-site__content__textblock">
-                <ContentBuilder
-                  position={props.value.right.position}
-                  padding={props.value.right.padding}
-                  supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
-                  value={props.value.right.content}
-                  handleChange={handleContentRightChange}
-                />
-              </div>
+              <ContentFrameGroup
+                horizontalPosition={props.value.right.horizontalPosition}
+                layout={props.value.right.layout}
+                gap={props.value.right.gap}
+                gridWidth={props.value.right.gridWidth}
+                expandToFill={props.value.right.expandToFill}
+                content={props.value.right.content}
+                handleChange={handleContentRightChange}
+              />
             </div>
           </BackgroundView>
         </div>

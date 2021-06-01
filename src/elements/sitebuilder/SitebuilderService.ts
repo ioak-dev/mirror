@@ -1,6 +1,10 @@
 import ContentType from './builder/ContentBuilder/ContentType';
 import TextType from './builder/ContentBuilder/TextType';
 import SectionType from './builder/SectionType';
+import {
+  ContentFrameMetaType,
+  ContentFrameGroupMetaType,
+} from './ContentFrameType';
 
 const tinycolor = require('tinycolor2');
 
@@ -24,7 +28,10 @@ export const toHtml = (blocks: any[]) => {
 
 const getHtmlForSplitSection = (block: any) => {
   let leftContent = `<div
-          class="${getContentClass(block.left.height, block.left.position)}"
+          class="${getContentContainerClass(
+            block.left.height,
+            block.left.position
+          )}"
         >`;
   leftContent += "<div class='elements-site__content__textblock'>";
   leftContent += getContent(
@@ -37,7 +44,10 @@ const getHtmlForSplitSection = (block: any) => {
   const left = getBackgroundView(block.left.background, leftContent, true);
 
   let rightContent = `<div
-          class="${getContentClass(block.right.height, block.right.position)}"
+          class="${getContentContainerClass(
+            block.right.height,
+            block.right.position
+          )}"
         >`;
   rightContent += "<div class='elements-site__content__textblock'>";
   rightContent += getContent(
@@ -63,7 +73,7 @@ const getHtmlForSplitSection = (block: any) => {
 
 const getHtmlForSingleSectionEditor = (block: any) => {
   let content = `<div
-          class="${getContentClass(block.height, block.position)}"
+          class="${getContentContainerClass(block.height, block.position)}"
         >`;
   content += "<div class='elements-site__content__textblock'>";
   content += getContent(block.content, block.position, block.padding);
@@ -325,20 +335,80 @@ export const getContentRootClass = (
   return res;
 };
 
-export const getContentClass = (
+export const getContentContainerClass = (
   height: string,
-  position:
-    | 'left'
-    | 'center'
-    | 'right'
-    | 'top-left'
-    | 'top-center'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-center'
-    | 'bottom-right'
+  verticalPosition: 'top' | 'middle' | 'bottom',
+  placement?: 'left' | 'right' | 'default'
 ) => {
-  return `elements-site__content elements-site__content--height-${height} elements-site__content--position-${position}`;
+  const base = 'elements-site__content-container';
+  let res = base;
+  res += ` ${base}--height-${height}`;
+  res += ` ${base}--align-y-${verticalPosition}`;
+  if (placement && placement !== 'default') {
+    res += ` ${base}--${placement}`;
+  }
+  return res;
+};
+
+export const getContentFrameGroupClass = (
+  meta: ContentFrameGroupMetaType,
+  horizontalPosition: 'left' | 'center' | 'right',
+  layout: string,
+  gap: 'none' | 'small' | 'medium' | 'large',
+  gridWidth: 'auto' | 'small' | 'medium' | 'large',
+  expandToFill: boolean
+) => {
+  const base = 'elements-site__content-frame-group';
+  let res = base;
+  res += ` ${base}--align-x-${horizontalPosition}`;
+  res += ` ${base}--gap-${gap}`;
+  res += ` ${base}--layout-${layout}`;
+  res += ` ${base}--grid-width-${gridWidth}`;
+  if (expandToFill) {
+    res += ` ${base}--expand-to-fill`;
+  } else {
+    res += ` ${base}--do-not-expand-to-fill`;
+  }
+  return res;
+};
+
+export const getContentFrameClass = (meta: ContentFrameMetaType) => {
+  const base = 'elements-site__content-frame';
+  let res = base;
+  res += ` ${base}--padding-x-${meta.horizontalPadding}`;
+  res += ` ${base}--padding-y-${meta.verticalPadding}`;
+  res += ` ${base}--align-x-${meta.horizontalPosition}`;
+  res += ` ${base}--align-y-${meta.verticalPosition}`;
+  res += ` ${base}--color-${meta.color}`;
+  res += ` ${base}--border-thickness-${meta.borderThickness}`;
+  if (meta.borderThickness && meta.borderThickness !== 'none') {
+    res += ` ${base}--border`;
+  }
+  return res;
+};
+
+export const getContentFrameStyle = (meta: ContentFrameMetaType) => {
+  const res: any = { color: null, borderColor: null };
+  if (meta.color === 'custom' && meta.hex) {
+    if (meta.opacity) {
+      const color = tinycolor(meta.hex).setAlpha(meta.opacity);
+      res.color = color.toString();
+    } else {
+      res.color = meta.hex;
+    }
+  }
+  if (meta.borderThickness !== 'none') {
+    res.borderColor = meta.borderColorHex;
+  }
+  return res;
+};
+
+export const getContentClass = (meta: ContentFrameMetaType) => {
+  const base = 'elements-site__content';
+  let res = base;
+  res += ` ${base}--gap-${meta.gap}`;
+  res += ` ${base}--align-x-${meta.horizontalPosition}`;
+  return res;
 };
 
 export const getGridSectionClass = () => {
@@ -374,9 +444,13 @@ export const getGridSectionItemStyle = (color: string, hex: string) => {
   return res;
 };
 
-export const getImageContainerClass = (align: 'left' | 'center' | 'right') => {
+export const getImageContainerClass = (
+  align: 'left' | 'center' | 'right',
+  meta: any
+) => {
   let res = 'elements-site__image-container';
   res += ` elements-site__image-container--align-${align}`;
+  res += ` elements-site__image-container--height-${meta.height}`;
   return res;
 };
 

@@ -12,7 +12,7 @@ interface Props {
   isActive: boolean;
   deactivate: any;
 }
-const ItemMetaDetails = (props: Props) => {
+const MetaDetails = (props: Props) => {
   const [groupId, setGroupId] = useState(newId());
   const [elementId, setElementId] = useState(newId());
 
@@ -73,4 +73,4 @@ const ItemMetaDetails = (props: Props) => {
   );
 };
 
-export default ItemMetaDetails;
+export default MetaDetails;

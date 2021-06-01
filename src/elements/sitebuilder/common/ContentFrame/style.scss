@@ -1,0 +1,15 @@
+.content-frame {
+  min-width: 100px;
+  min-height: 50px;
+  position: relative;
+  border: 1px dotted grey;
+  margin-bottom: 46px;
+}
+.content-frame__action {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 10px;
+}

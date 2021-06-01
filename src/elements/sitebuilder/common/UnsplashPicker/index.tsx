@@ -91,6 +91,7 @@ const UnsplashPicker = (props: Props) => {
                 shape="sharp"
                 handleInput={handleSearchTextChange}
                 formGroupName={formId}
+                placeholder="Search term"
               />
             </OakForm>
             <OakClickArea handleClick={search}>

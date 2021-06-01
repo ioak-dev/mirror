@@ -9,7 +9,7 @@ import OakViewer from '../oakui/OakViewer';
 import { toHtml } from './sitebuilder/SitebuilderService';
 import SectionType from './sitebuilder/builder/SectionType';
 import SplitContentEditor from './sitebuilder/editor/SplitContentEditor';
-import GridSectionEditor from './sitebuilder/editor/GridSectionEditor';
+import { ContentFrameItemDataType } from './sitebuilder/ContentFrameType';
 
 interface Props {
   history?: any;
@@ -22,8 +22,38 @@ const Elements = (props: Props) => {
       id: newId(),
       type: SectionType.SINGLE_SECTION,
       height: 'full',
-      position: 'center',
-      content: [],
+      verticalPosition: 'middle',
+      layout: '',
+      gap: 'small',
+      content: {
+        meta: {},
+        items: [
+          {
+            id: newId(),
+            meta: {
+              verticalPosition: 'top',
+              horizontalPosition: 'left',
+              verticalPadding: 'small',
+              horizontalPadding: 'small',
+              color: 'none',
+              hex: null,
+            },
+            items: [
+              {
+                id: newId(),
+                type: ContentFrameItemDataType.TEXT,
+                data: {
+                  text: 'Lorem ipsum',
+                },
+                meta: {
+                  elementType: 'body',
+                  fontsize: 'medium',
+                },
+              },
+            ],
+          },
+        ],
+      },
       background: {
         source: 'UNSPLASH',
         data: {
@@ -40,18 +70,47 @@ const Elements = (props: Props) => {
     {
       id: newId(),
       type: SectionType.SPLIT_SECTION,
-      position: 'center',
       proportion: 0,
+      height: 'full',
       left: {
-        height: 'medium',
-        content: [],
-        position: 'center',
+        verticalPosition: 'middle',
+        layout: '',
+        gap: 'small',
+        content: {
+          meta: {},
+          items: [
+            {
+              id: newId(),
+              meta: {
+                verticalPosition: 'top',
+                horizontalPosition: 'left',
+                verticalPadding: 'small',
+                horizontalPadding: 'small',
+                color: 'none',
+                hex: null,
+              },
+              items: [
+                {
+                  id: newId(),
+                  type: ContentFrameItemDataType.TEXT,
+                  data: {
+                    text: 'Lorem ipsum',
+                  },
+                  meta: {
+                    elementType: 'body',
+                    fontsize: 'medium',
+                  },
+                },
+              ],
+            },
+          ],
+        },
         background: {
           source: 'UNSPLASH',
           data: {
             urls: {
               regular:
-                'https://images.unsplash.com/reserve/HgZuGu3gSD6db21T3lxm_San%20Zenone.jpg?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw3fHxuYXR1cmV8ZW58MHwwfHx8MTYyMTc1Mzc4Ng&ixlib=rb-1.2.1&q=80&w=1080',
+                'https://images.unsplash.com/photo-1516737488405-7b6d6868fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw0fHxiYWxsZXR8ZW58MHwwfHx8MTYyMTMzODkyNA&ixlib=rb-1.2.1&q=80&w=1080',
             },
           },
           meta: {
@@ -60,13 +119,45 @@ const Elements = (props: Props) => {
         },
       },
       right: {
-        height: 'medium',
-        content: [],
-        position: 'center',
+        verticalPosition: 'middle',
+        layout: '',
+        gap: 'small',
+        content: {
+          meta: {},
+          items: [
+            {
+              id: newId(),
+              meta: {
+                verticalPosition: 'top',
+                horizontalPosition: 'left',
+                verticalPadding: 'small',
+                horizontalPadding: 'small',
+                color: 'none',
+                hex: null,
+              },
+              items: [
+                {
+                  id: newId(),
+                  type: ContentFrameItemDataType.TEXT,
+                  data: {
+                    text: 'Lorem ipsum',
+                  },
+                  meta: {
+                    elementType: 'body',
+                    fontsize: 'medium',
+                  },
+                },
+              ],
+            },
+          ],
+        },
         background: {
-          source: 'SOLID-COLOR',
+          source: 'UNSPLASH',
           data: {
-            color: 'default',
+            urls: {
+              regular:
+                'https://images.unsplash.com/photo-1516737488405-7b6d6868fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw0fHxiYWxsZXR8ZW58MHwwfHx8MTYyMTMzODkyNA&ixlib=rb-1.2.1&q=80&w=1080',
+            },
           },
           meta: {
             overlay: 'low',
@@ -77,8 +168,8 @@ const Elements = (props: Props) => {
     {
       id: newId(),
       type: SectionType.SPLIT_CONTENT,
-      position: 'center',
-      proportion: 0,
+      proportion: 1,
+      height: 'large',
       background: {
         source: 'UNSPLASH',
         data: {
@@ -92,14 +183,72 @@ const Elements = (props: Props) => {
         },
       },
       left: {
-        content: [],
-        position: 'center',
-        height: 'medium',
+        verticalPosition: 'middle',
+        layout: '',
+        gap: 'small',
+        content: {
+          meta: {},
+          items: [
+            {
+              id: newId(),
+              meta: {
+                verticalPosition: 'top',
+                horizontalPosition: 'left',
+                verticalPadding: 'small',
+                horizontalPadding: 'small',
+                color: 'none',
+                hex: null,
+              },
+              items: [
+                {
+                  id: newId(),
+                  type: ContentFrameItemDataType.TEXT,
+                  data: {
+                    text: 'Lorem ipsum',
+                  },
+                  meta: {
+                    elementType: 'body',
+                    fontsize: 'medium',
+                  },
+                },
+              ],
+            },
+          ],
+        },
       },
       right: {
-        content: [],
-        position: 'center',
-        height: 'medium',
+        verticalPosition: 'middle',
+        layout: '',
+        gap: 'small',
+        content: {
+          meta: {},
+          items: [
+            {
+              id: newId(),
+              meta: {
+                verticalPosition: 'top',
+                horizontalPosition: 'left',
+                verticalPadding: 'small',
+                horizontalPadding: 'small',
+                color: 'none',
+                hex: null,
+              },
+              items: [
+                {
+                  id: newId(),
+                  type: ContentFrameItemDataType.TEXT,
+                  data: {
+                    text: 'Lorem ipsum',
+                  },
+                  meta: {
+                    elementType: 'body',
+                    fontsize: 'medium',
+                  },
+                },
+              ],
+            },
+          ],
+        },
       },
     },
     {
@@ -148,14 +297,6 @@ const Elements = (props: Props) => {
   return (
     <div className="elements">
       <div className="content-editor-demo">
-        <GridSectionEditor
-          value={content[3]}
-          handleChange={(value: any) => handleChange(value, content[3])}
-        />
-        <SplitContentEditor
-          value={content[2]}
-          handleChange={(value: any) => handleChange(value, content[2])}
-        />
         <SingleSectionEditor
           value={content[0]}
           handleChange={(value: any) => handleChange(value, content[0])}
@@ -164,10 +305,22 @@ const Elements = (props: Props) => {
           value={content[1]}
           handleChange={(value: any) => handleChange(value, content[1])}
         />
+        <SplitContentEditor
+          value={content[2]}
+          handleChange={(value: any) => handleChange(value, content[2])}
+        />
+        {/* <GridSectionEditor
+          value={content[3]}
+          handleChange={(value: any) => handleChange(value, content[3])}
+        />
+        <SplitContentEditor
+          value={content[2]}
+          handleChange={(value: any) => handleChange(value, content[2])}
+        /> */}
       </div>
-      <div className="content-editor-demo">
+      {/* <div className="content-editor-demo">
         <OakViewer customStyle>{toHtml(content)}</OakViewer>
-      </div>
+      </div> */}
       {/* <div className="content-editor-demo">
         <ContentEditor value={content} handleChange={handleChange} />
         <OakButton handleClick={submit}>Submit</OakButton>

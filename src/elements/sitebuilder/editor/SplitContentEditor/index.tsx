@@ -9,10 +9,12 @@ import ContentType from '../../builder/ContentBuilder/ContentType';
 import BackgroundView from '../../common/BackgroundView';
 import {
   getContentClass,
+  getContentContainerClass,
   getSplitSectionClass,
   getTextAlignment,
 } from '../../SitebuilderService';
 import ControlButton from '../../common/ControlButton';
+import ContentFrameGroup from '../../common/ContentFrameGroup';
 
 interface Props {
   value: any;
@@ -87,6 +89,18 @@ const SplitContentEditor = (props: Props) => {
     props.handleChange(_value);
   };
 
+  const handleResizeUp = () => {
+    const _value = { ...props.value };
+    _value.proportion -= 1;
+    props.handleChange(_value);
+  };
+
+  const handleResizeDown = () => {
+    const _value = { ...props.value };
+    _value.proportion += 1;
+    props.handleChange(_value);
+  };
+
   const elementId = newId();
 
   return (
@@ -102,40 +116,47 @@ const SplitContentEditor = (props: Props) => {
         value={props.value.background}
         handleChange={handleChangeBackground}
         handleEditRequest={() => setIsEditOpen(true)}
+        handleResizeUp={
+          props.value.proportion > -3 ? () => handleResizeUp() : null
+        }
+        handleResizeDown={
+          props.value.proportion < 3 ? () => handleResizeDown() : null
+        }
+        resizeControlPosition="left"
       >
         <div className="elements-site-viewbox">
           <div className={getSplitSectionClass(props.value.proportion)}>
             <div
-              className={getContentClass(
-                props.value.left.height,
-                props.value.left.position
+              className={getContentContainerClass(
+                props.value.height,
+                props.value.left.verticalPosition
               )}
             >
-              <div className="elements-site__content__textblock">
-                <ContentBuilder
-                  position={props.value.left.position}
-                  padding={props.value.left.padding}
-                  supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
-                  value={props.value.left.content}
-                  handleChange={handleContentLeftChange}
-                />
-              </div>
+              <ContentFrameGroup
+                horizontalPosition={props.value.left.horizontalPosition}
+                layout={props.value.left.layout}
+                gap={props.value.left.gap}
+                gridWidth={props.value.left.gridWidth}
+                expandToFill={props.value.left.expandToFill}
+                content={props.value.left.content}
+                handleChange={handleContentLeftChange}
+              />
             </div>
             <div
-              className={getContentClass(
-                props.value.right.height,
-                props.value.right.position
+              className={getContentContainerClass(
+                props.value.height,
+                props.value.right.verticalPosition
               )}
             >
-              <div className="elements-site__content__textblock">
-                <ContentBuilder
-                  position={props.value.right.position}
-                  padding={props.value.right.padding}
-                  supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
-                  value={props.value.right.content}
-                  handleChange={handleContentRightChange}
-                />
-              </div>
+              <ContentFrameGroup
+                horizontalPosition={props.value.right.horizontalPosition}
+                layout={props.value.right.layout}
+                gap={props.value.right.gap}
+                gridWidth={props.value.right.gridWidth}
+                expandToFill={props.value.right.expandToFill}
+                content={props.value.right.content}
+                handleChange={handleContentRightChange}
+              />
             </div>
           </div>
         </div>

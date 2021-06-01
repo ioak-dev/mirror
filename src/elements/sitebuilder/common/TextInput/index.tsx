@@ -16,13 +16,14 @@ import OakClickArea from '../../../../oakui/wc/OakClickArea';
 import MetaDetails from './MetaDetails';
 import ActionButton from '../../../core/common/ActionButton';
 import { getTextClass } from '../../SitebuilderService';
+import { ContentFrameItemType } from '../../ContentFrameType';
 
 const tinycolor = require('tinycolor2');
 
 interface Props {
   handleChange: any;
   handleDelete: any;
-  block: any;
+  block: ContentFrameItemType;
   placeholder?: string;
   align?: 'left' | 'right' | 'center';
 }
@@ -107,6 +108,7 @@ const TextInput = (props: Props) => {
               className={`text_input__output ${className} elements-inline-children`}
               dangerouslySetInnerHTML={{ __html: props.block.data.text || '' }}
             />
+            {props.block.data.text}
             <textarea
               name="text"
               className="text-input__input"

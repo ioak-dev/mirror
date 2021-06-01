@@ -24,88 +24,117 @@ const MetaDetailsSection = (props: Props) => {
 
   return (
     <>
+      {' '}
       <OakRadioGroup
-        name="position"
-        radioGroupName={`align-${groupId}`}
-        value={props.value.position}
-        label="Text block position"
+        name="layout"
+        radioGroupName={`layout-${groupId}`}
+        value={props.value.layout}
+        label="Layout"
         handleChange={handleChange}
         gutterBottom
       >
-        <OakRadio name="left" radioGroupName={`align-${groupId}`}>
-          Left
+        <OakRadio name="responsive" radioGroupName={`layout-${groupId}`}>
+          Responsive
         </OakRadio>
-        <OakRadio name="center" radioGroupName={`align-${groupId}`}>
-          Center
+        <OakRadio name="middle" radioGroupName={`layout-${groupId}`}>
+          Middle
         </OakRadio>
-        <OakRadio name="right" radioGroupName={`align-${groupId}`}>
-          Right
-        </OakRadio>
-        <OakRadio name="bottom-left" radioGroupName={`align-${groupId}`}>
-          Bottom left
-        </OakRadio>
-        <OakRadio name="bottom-center" radioGroupName={`align-${groupId}`}>
-          Bottom center
-        </OakRadio>
-        <OakRadio name="bottom-right" radioGroupName={`align-${groupId}`}>
-          Bottom right
-        </OakRadio>
-        <OakRadio name="top-left" radioGroupName={`align-${groupId}`}>
-          Top left
-        </OakRadio>
-        <OakRadio name="top-center" radioGroupName={`align-${groupId}`}>
-          Top center
-        </OakRadio>
-        <OakRadio name="top-right" radioGroupName={`align-${groupId}`}>
-          Top right
+        <OakRadio name="bottom" radioGroupName={`layout-${groupId}`}>
+          Bottom
         </OakRadio>
       </OakRadioGroup>
       <OakRadioGroup
-        name="padding"
-        radioGroupName={`padding-${groupId}`}
-        value={props.value.padding}
-        label="Padding for content"
+        name="gridWidth"
+        radioGroupName={`gridWidth-${groupId}`}
+        value={props.value.gridWidth}
+        label="Grid width"
         handleChange={handleChange}
         gutterBottom
       >
-        <OakRadio name="none" radioGroupName={`padding-${groupId}`}>
-          None
+        <OakRadio name="auto" radioGroupName={`gridWidth-${groupId}`}>
+          Auto (based on content)
         </OakRadio>
-        <OakRadio name="xsmall" radioGroupName={`padding-${groupId}`}>
+        <OakRadio name="xsmall" radioGroupName={`gridWidth-${groupId}`}>
           Extra small
         </OakRadio>
-        <OakRadio name="small" radioGroupName={`padding-${groupId}`}>
+        <OakRadio name="small" radioGroupName={`gridWidth-${groupId}`}>
           Small
         </OakRadio>
-        <OakRadio name="medium" radioGroupName={`padding-${groupId}`}>
+        <OakRadio name="medium" radioGroupName={`gridWidth-${groupId}`}>
           Medium
         </OakRadio>
-        <OakRadio name="large" radioGroupName={`padding-${groupId}`}>
+        <OakRadio name="large" radioGroupName={`gridWidth-${groupId}`}>
           Large
         </OakRadio>
-        <OakRadio name="xlarge" radioGroupName={`padding-${groupId}`}>
-          Extra large
-        </OakRadio>
       </OakRadioGroup>
+      {props.value.gridWidth !== 'auto' && (
+        <OakCheckbox
+          name="expandToFill"
+          value={props.value.expandToFill}
+          handleChange={handleChange}
+          gutterBottom
+        >
+          Expand grid width to fill space
+        </OakCheckbox>
+      )}
       <OakRadioGroup
-        name="height"
-        radioGroupName={`height-${groupId}`}
-        value={props.value.height}
-        label="Section height / Vertical padding"
+        name="gap"
+        radioGroupName={`gap-${groupId}`}
+        value={props.value.gap}
+        label="gap"
         handleChange={handleChange}
         gutterBottom
       >
-        <OakRadio name="small" radioGroupName={`height-${groupId}`}>
+        <OakRadio name="none" radioGroupName={`gap-${groupId}`}>
+          None
+        </OakRadio>
+        <OakRadio name="small" radioGroupName={`gap-${groupId}`}>
           Small
         </OakRadio>
-        <OakRadio name="medium" radioGroupName={`height-${groupId}`}>
+        <OakRadio name="medium" radioGroupName={`gap-${groupId}`}>
           Medium
         </OakRadio>
-        <OakRadio name="large" radioGroupName={`height-${groupId}`}>
+        <OakRadio name="large" radioGroupName={`gap-${groupId}`}>
           Large
         </OakRadio>
-        <OakRadio name="full" radioGroupName={`height-${groupId}`}>
-          Full page
+      </OakRadioGroup>
+      <OakRadioGroup
+        name="verticalPosition"
+        radioGroupName={`verticalPosition-${groupId}`}
+        value={props.value.verticalPosition}
+        label="Vertical position"
+        handleChange={handleChange}
+        gutterBottom
+      >
+        <OakRadio name="top" radioGroupName={`verticalPosition-${groupId}`}>
+          Top
+        </OakRadio>
+        <OakRadio name="middle" radioGroupName={`verticalPosition-${groupId}`}>
+          Middle
+        </OakRadio>
+        <OakRadio name="bottom" radioGroupName={`verticalPosition-${groupId}`}>
+          Bottom
+        </OakRadio>
+      </OakRadioGroup>
+      <OakRadioGroup
+        name="horizontalPosition"
+        radioGroupName={`horizontalPosition-${groupId}`}
+        value={props.value.horizontalPosition}
+        label="Horizontal position"
+        handleChange={handleChange}
+        gutterBottom
+      >
+        <OakRadio name="left" radioGroupName={`horizontalPosition-${groupId}`}>
+          Left
+        </OakRadio>
+        <OakRadio
+          name="center"
+          radioGroupName={`horizontalPosition-${groupId}`}
+        >
+          Center
+        </OakRadio>
+        <OakRadio name="right" radioGroupName={`horizontalPosition-${groupId}`}>
+          Right
         </OakRadio>
       </OakRadioGroup>
     </>

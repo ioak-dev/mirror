@@ -5,7 +5,13 @@ import MetaDetails from './MetaDetails';
 import ContentBuilder from '../../builder/ContentBuilder';
 import ContentType from '../../builder/ContentBuilder/ContentType';
 import BackgroundView from '../../common/BackgroundView';
-import { getContentClass, getTextAlignment } from '../../SitebuilderService';
+import {
+  getContentClass,
+  getContentContainerClass,
+  getTextAlignment,
+} from '../../SitebuilderService';
+import ContentFrame from '../../common/ContentFrame';
+import ContentFrameGroup from '../../common/ContentFrameGroup';
 
 interface Props {
   value: any;
@@ -44,6 +50,7 @@ const SingleSectionEditor = (props: Props) => {
   }, [props.value]);
 
   const handleMetaChange = (value: any) => {
+    console.log(value);
     props.handleChange(value);
   };
 
@@ -71,20 +78,29 @@ const SingleSectionEditor = (props: Props) => {
         handleEditRequest={() => setIsEditOpen(true)}
       >
         <div
-          className={`elements-site-viewbox ${getContentClass(
+          className={`elements-site-viewbox ${getContentContainerClass(
             props.value.height,
-            props.value.position
+            props.value.verticalPosition
           )}`}
         >
-          <div className="elements-site__content__textblock">
-            <ContentBuilder
-              position={props.value.position}
-              padding={props.value.padding}
-              supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
-              value={props.value.content}
-              handleChange={handleContentChange}
-            />
-          </div>
+          {/* <div className="elements-site__content__textblock"> */}
+          <ContentFrameGroup
+            horizontalPosition={props.value.horizontalPosition}
+            layout={props.value.layout}
+            gap={props.value.gap}
+            gridWidth={props.value.gridWidth}
+            expandToFill={props.value.expandToFill}
+            content={props.value.content}
+            handleChange={handleContentChange}
+          />
+          {/* <ContentBuilder
+            position={props.value.position}
+            padding={props.value.padding}
+            supportedTypes={[ContentType.TEXT, ContentType.ACTION]}
+            value={props.value.content}
+            handleChange={handleContentChange}
+          /> */}
+          {/* </div> */}
         </div>
       </BackgroundView>
     </>

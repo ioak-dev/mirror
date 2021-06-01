@@ -1,0 +1,100 @@
+.elements-site__content-frame {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+}
+.elements-site__content-frame--padding-x-small {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.elements-site__content-frame--padding-y-small {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.elements-site__content-frame--padding-x-medium {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.elements-site__content-frame--padding-y-medium {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.elements-site__content-frame--padding-x-large {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.elements-site__content-frame--padding-y-large {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.elements-site__content-frame--align-x-left {
+  justify-content: flex-start;
+}
+.elements-site__content-frame--align-x-center {
+  justify-content: center;
+}
+.elements-site__content-frame--align-x-right {
+  justify-content: flex-end;
+}
+.elements-site__content-frame--align-y-top {
+  align-items: flex-start;
+}
+.elements-site__content-frame--align-y-middle {
+  align-items: center;
+}
+.elements-site__content-frame--align-y-bottom {
+  align-items: flex-end;
+}
+
+.elements-site__content-frame--margin-x-small {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.elements-site__content-frame--margin-y-small {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.elements-site__content-frame--margin-x-medium {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.elements-site__content-frame--margin-y-medium {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.elements-site__content-frame--margin-x-large {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.elements-site__content-frame--margin-y-large {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.elements-site__content-frame--color-primary {
+  background-color: var(--color-primary);
+}
+.elements-site__content-frame--color-secondary {
+  background-color: var(--color-secondary);
+}
+.elements-site__content-frame--color-custom {
+  background-color: var(--content-frame-color);
+}
+
+.elements-site__content-frame--border {
+  border-style: solid;
+  border-color: var(--content-frame-border-color);
+}
+.elements-site__content-frame--border-thickness-none {
+  border: none;
+}
+.elements-site__content-frame--border-thickness-thin {
+  border-width: 1px;
+}
+.elements-site__content-frame--border-thickness-normal {
+  border-width: 2px;
+}
+.elements-site__content-frame--border-thickness-thick {
+  border-width: 4px;
+}

@@ -1,0 +1,23 @@
+.elements-site__content {
+  display: grid;
+  grid-auto-flow: row;
+}
+.elements-site__content--gap-small {
+  row-gap: 10px;
+}
+.elements-site__content--gap-medium {
+  row-gap: 20px;
+}
+.elements-site__content--gap-large {
+  row-gap: 30px;
+}
+
+.elements-site__content--align-x-left {
+  justify-items: flex-start;
+}
+.elements-site__content--align-x-center {
+  justify-items: center;
+}
+.elements-site__content--align-x-right {
+  justify-items: flex-end;
+}

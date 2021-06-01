@@ -28,10 +28,10 @@
   grid-template-columns: 2.5fr 1fr;
 }
 
-.elements-site__split-section__content__left {
+.elements-site__content-container--left {
   padding-left: calc((100vw - var(--element-site-viewbox)) / 2) !important;
 }
-.elements-site__split-section__content__right {
+.elements-site__content-container--right {
   padding-right: calc((100vw - var(--element-site-viewbox)) / 2) !important;
 }
 // .elements-site__split-section__content__left--proportion-p1 {
