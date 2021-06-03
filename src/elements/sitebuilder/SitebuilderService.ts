@@ -468,6 +468,19 @@ export const getGridSectionContainerClass = (
   return res;
 };
 
+export const getOverlapSectionClass = (
+  backgroundSectionHeight: 'auto' | 'small' | 'medium' | 'large' | 'full',
+  width: 'small' | 'medium' | 'large',
+  offset: 'small' | 'medium' | 'large'
+) => {
+  const base = 'elements-site__overlap-section';
+  let res = base;
+  res += ` ${base}--background-section-height-${backgroundSectionHeight}`;
+  res += ` ${base}--width-${width}`;
+  res += ` ${base}--offset-${offset}`;
+  return res;
+};
+
 export const getSplitSectionClass = (proportion: number) => {
   let res = 'elements-site__split-section';
   res += ` elements-site__split-section--proportion-${

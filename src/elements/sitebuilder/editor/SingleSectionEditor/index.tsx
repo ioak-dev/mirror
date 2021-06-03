@@ -17,6 +17,8 @@ interface Props {
   value: any;
   handleChange: any;
   placeholder?: string;
+  handleEditRequest?: any;
+  children?: any;
 }
 const SingleSectionEditor = (props: Props) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -65,18 +67,25 @@ const SingleSectionEditor = (props: Props) => {
 
   return (
     <>
-      <MetaDetails
-        isActive={isEditOpen}
-        handleChange={handleMetaChange}
-        value={props.value}
-        deactivate={() => setIsEditOpen(false)}
-      />
+      {!props.handleEditRequest && (
+        <MetaDetails
+          isActive={isEditOpen}
+          handleChange={handleMetaChange}
+          value={props.value}
+          deactivate={() => setIsEditOpen(false)}
+        />
+      )}
 
       <BackgroundView
         value={props.value.background}
         handleChange={handleChangeBackground}
-        handleEditRequest={() => setIsEditOpen(true)}
+        handleEditRequest={
+          props.handleEditRequest
+            ? () => props.handleEditRequest()
+            : () => setIsEditOpen(true)
+        }
       >
+        {props.children}
         <div
           className={`elements-site-viewbox ${getContentContainerClass(
             props.value.height,

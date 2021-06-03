@@ -10,6 +10,7 @@ import { toHtml } from './sitebuilder/SitebuilderService';
 import SectionType from './sitebuilder/builder/SectionType';
 import SplitContentEditor from './sitebuilder/editor/SplitContentEditor';
 import { ContentFrameItemDataType } from './sitebuilder/ContentFrameType';
+import OverlapSectionEditor from './sitebuilder/editor/OverlapSectionEditor';
 
 interface Props {
   history?: any;
@@ -253,25 +254,101 @@ const Elements = (props: Props) => {
     },
     {
       id: newId(),
-      type: SectionType.GRID_SECTION,
-      height: 'full',
-      position: 'center',
-      item: [
-        {
-          id: newId(),
-          content: [],
+      type: SectionType.OVERLAP_SECTION,
+      backgroundSection: {
+        type: SectionType.SINGLE_SECTION,
+        height: 'medium',
+        verticalPosition: 'middle',
+        layout: '',
+        gap: 'small',
+        content: {
+          meta: {},
+          items: [
+            {
+              id: newId(),
+              meta: {
+                verticalPosition: 'top',
+                horizontalPosition: 'left',
+                verticalPadding: 'small',
+                horizontalPadding: 'small',
+                color: 'none',
+                hex: null,
+              },
+              items: [
+                {
+                  id: newId(),
+                  type: ContentFrameItemDataType.TEXT,
+                  data: {
+                    text: 'Lorem ipsum',
+                  },
+                  meta: {
+                    elementType: 'body',
+                    fontsize: 'medium',
+                  },
+                },
+              ],
+            },
+          ],
         },
-      ],
-      background: {
-        source: 'UNSPLASH',
-        data: {
-          urls: {
-            regular:
-              'https://images.unsplash.com/photo-1516737488405-7b6d6868fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw0fHxiYWxsZXR8ZW58MHwwfHx8MTYyMTMzODkyNA&ixlib=rb-1.2.1&q=80&w=1080',
+        background: {
+          source: 'UNSPLASH',
+          data: {
+            urls: {
+              regular:
+                'https://images.unsplash.com/photo-1516737488405-7b6d6868fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw0fHxiYWxsZXR8ZW58MHwwfHx8MTYyMTMzODkyNA&ixlib=rb-1.2.1&q=80&w=1080',
+            },
+          },
+          meta: {
+            overlay: 'low',
           },
         },
-        meta: {
-          overlay: 'low',
+      },
+      foregroundSection: {
+        type: SectionType.SINGLE_SECTION,
+        height: 'medium',
+        verticalPosition: 'middle',
+        layout: '',
+        gap: 'small',
+        content: {
+          meta: {},
+          items: [
+            {
+              id: newId(),
+              meta: {
+                verticalPosition: 'top',
+                horizontalPosition: 'left',
+                verticalPadding: 'small',
+                horizontalPadding: 'small',
+                color: 'none',
+                hex: null,
+              },
+              items: [
+                {
+                  id: newId(),
+                  type: ContentFrameItemDataType.TEXT,
+                  data: {
+                    text: 'Lorem ipsum',
+                  },
+                  meta: {
+                    elementType: 'body',
+                    fontsize: 'medium',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        background: {
+          source: 'UNSPLASH',
+          data: {
+            urls: {
+              regular:
+                'https://images.unsplash.com/photo-1516737488405-7b6d6868fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjk0OTh8MHwxfHNlYXJjaHw0fHxiYWxsZXR8ZW58MHwwfHx8MTYyMTMzODkyNA&ixlib=rb-1.2.1&q=80&w=1080',
+            },
+          },
+          meta: {
+            overlay: 'low',
+          },
         },
       },
     },
@@ -300,6 +377,10 @@ const Elements = (props: Props) => {
         <SingleSectionEditor
           value={content[0]}
           handleChange={(value: any) => handleChange(value, content[0])}
+        />
+        <OverlapSectionEditor
+          value={content[3]}
+          handleChange={(value: any) => handleChange(value, content[3])}
         />
         <SplitSectionEditor
           value={content[1]}
