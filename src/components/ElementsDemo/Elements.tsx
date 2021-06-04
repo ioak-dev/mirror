@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
-import './style.scss';
-import SingleSectionEditor from './sitebuilder/editor/SingleSectionEditor';
-import { newId } from './utils/BasicUtil';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  ContentFrameItemDataType,
+  OverlapSectionEditor,
+  SectionType,
+  SingleSectionEditor,
+  SplitContentEditor,
+  SplitSectionEditor,
+} from 'elements';
 
-import './Hero.scss';
-import SplitSectionEditor from './sitebuilder/editor/SplitSectionEditor';
-import OakViewer from '../oakui/OakViewer';
-import { toHtml } from './sitebuilder/SitebuilderService';
-import SectionType from './sitebuilder/builder/SectionType';
-import SplitContentEditor from './sitebuilder/editor/SplitContentEditor';
-import { ContentFrameItemDataType } from './sitebuilder/ContentFrameType';
-import OverlapSectionEditor from './sitebuilder/editor/OverlapSectionEditor';
+import OakViewer from '../../oakui/OakViewer';
+import './Elements.scss';
 
 interface Props {
   history?: any;
 }
+
+const newId = () => {
+  return `uid-${uuidv4()}`;
+};
 
 const Elements = (props: Props) => {
   const [richTextEditorValue, setRichTextEditorValue] = useState('Test');

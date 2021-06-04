@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 
+import { RichTextEditor } from 'elements';
+
 import './style.scss';
 import { GET_ASSET } from '../Types/schema';
 import HeroSection from './HeroSection';

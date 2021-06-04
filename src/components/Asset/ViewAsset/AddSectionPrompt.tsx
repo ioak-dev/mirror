@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { BlockType } from 'elements';
 import './SiteBuilder.scss';
 import OakButton from '../../../oakui/wc/OakButton';
 import OakRadioGroup from '../../../oakui/wc/OakRadioGroup';
 import { newId } from '../../../events/MessageService';
 import OakRadio from '../../../oakui/wc/OakRadio';
-import BlockType from '../../../elements/core/ContentEditor/BlockType';
 
 interface Props {
   addSection: any;

@@ -8,10 +8,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { compose as typographyCompose } from '@oakui/core-stage/style-composer/OakTypographyComposer';
 import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLinkComposer';
+import { BlockService } from 'elements';
 
 import './CategoryItem.scss';
 import { GET_ARTICLES } from '../../Types/ArticleSchema';
-import { toText, toHtml } from '../../../elements/core/EditorService';
 
 interface Props {
   history: any;
@@ -72,7 +72,7 @@ const CategoryItem = (props: Props) => {
                   variant: 'body1',
                 })}
               >
-                {toText(item.title)}
+                {BlockService.toText(item.title)}
               </a>
             </div>
           ))}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { compose as sectionCompose } from '@oakui/core-stage/style-composer/OakSectionComposer';
+import { BlockType } from 'elements';
 import './HeroSection.scss';
 import OakInput from '../../../../oakui/wc/OakInput';
 import { newId } from '../../../../events/MessageService';
@@ -8,7 +9,6 @@ import OakRadioGroup from '../../../../oakui/wc/OakRadioGroup';
 import OakCheckbox from '../../../../oakui/wc/OakCheckbox';
 import OakRadio from '../../../../oakui/wc/OakRadio';
 import ActionSection from './ActionSection';
-import BlockType from '../../../../elements/core/ContentEditor/BlockType';
 
 interface Props {
   section: any;

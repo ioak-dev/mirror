@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { RichTextControlType, RichTextEditor } from 'elements';
 import { UPDATE_ARTICLE_COMMENT } from '../../../Types/ArticleSchema';
 import { isEmptyOrSpaces, isEmptyAttributes } from '../../../Utils';
 import { ArticleCommentPayload } from '../../../../types/graphql';
 import OakButton from '../../../../oakui/wc/OakButton';
 
 import './NewCommentItem.scss';
-import RichTextEditor from '../../../../elements/core/editor/RichTextEditor';
-import RichTextControlType from '../../../../elements/core/editor/RichTextEditor/RichTextControlType';
 
 interface Props {
   articleId: string;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { BlockType } from 'elements';
 import './FeatureItemSection.scss';
 import OakButton from '../../../../oakui/wc/OakButton';
 import { newId } from '../../../../events/MessageService';
-import BlockType from '../../../../elements/core/ContentEditor/BlockType';
 import OakInput from '../../../../oakui/wc/OakInput';
 
 interface Props {

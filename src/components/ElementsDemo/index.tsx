@@ -1,5 +1,5 @@
 import React from 'react';
-import Elements from '../../elements';
+import Elements from './Elements';
 import './style.scss';
 
 interface Props {

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
+import { BlockType } from 'elements';
+
 import './style.scss';
 import { GET_ASSET, UPDATE_ASSET } from '../../Types/schema';
 import ViewItem from './ViewItem';
@@ -8,7 +10,6 @@ import OakButton from '../../../oakui/wc/OakButton';
 import { AssetPayload } from '../../../types/graphql';
 import SiteBuilder from './SiteBuilder';
 import { newId } from '../../../events/MessageService';
-import BlockType from '../../../elements/core/ContentEditor/BlockType';
 
 interface Props {
   location: any;

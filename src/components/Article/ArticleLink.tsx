@@ -3,16 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
 import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLinkComposer';
 import { compose as typographyCompose } from '@oakui/core-stage/style-composer/OakTypographyComposer';
+import { BlockService } from 'elements';
 import './ArticleLink.scss';
 import { Article } from '../../types/graphql';
 import { formatDateText } from '../Lib/DateUtils';
 import { htmlToText } from '../Utils';
 import ArticleMeta from './ArticleMeta';
-import {
-  toText,
-  toHtml,
-  getFirstImage,
-} from '../../elements/core/EditorService';
 
 interface Props {
   article: Article;
@@ -24,7 +20,7 @@ const ArticleLink = (props: Props) => {
   const [imageUrl, setImageUrl] = useState<any>(null);
 
   useEffect(() => {
-    setImageUrl(getFirstImage(props.article.description));
+    setImageUrl(BlockService.getFirstImage(props.article.description));
   }, [props.article]);
 
   return (
@@ -62,7 +58,7 @@ const ArticleLink = (props: Props) => {
               variant: 'h3',
             })}
           >
-            {toText(props.article?.title)}
+            {BlockService.toText(props.article?.title)}
           </a>
         </h3>
 
@@ -79,7 +75,7 @@ const ArticleLink = (props: Props) => {
             color: 'inherit',
           })}`}
         >
-          {toText(props.article.description)}
+          {BlockService.toText(props.article.description)}
         </p>
 
         <div className="article-link__more">

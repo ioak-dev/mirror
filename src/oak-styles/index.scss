@@ -7,6 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
 
 @import '../../node_modules/@oakui/core-stage/style/index.css';
+@import '../../node_modules/elements/dist/style/style.scss';
 
 @import './custom/theme.scss';
 @import './custom/border.scss';
@@ -22,8 +23,6 @@
 @import './custom/padding.scss';
 @import './custom/typography.css';
 @import './custom/oak-app-layout.css';
-
-@import '../elements/elements_variables.css';
 
 body {
   -webkit-font-smoothing: antialiased;

@@ -3,13 +3,13 @@ import { useMutation } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { compose as linkCompose } from '@oakui/core-stage/style-composer/OakLinkComposer';
+import { BlockService } from 'elements';
 import { Article } from '../../../types/graphql';
 import OakViewer from '../../../oakui/OakViewer';
 import { DELETE_ARTICLE } from '../../Types/ArticleSchema';
 
 import './ArticleItem.scss';
 import ArticleMeta from '../ArticleMeta';
-import { toText, toHtml } from '../../../elements/core/EditorService';
 import OakClickArea from '../../../oakui/wc/OakClickArea';
 
 interface Props {
@@ -54,7 +54,7 @@ const ArticleItem = (props: Props) => {
   return (
     <>
       <div className="view-article-item">
-        <OakViewer>{toHtml(props.article.title)}</OakViewer>
+        <OakViewer>{BlockService.toHtml(props.article.title)}</OakViewer>
         <div className="view-article-item__meta">
           <ArticleMeta article={props.article} show={['date', 'views']} />
           <OakClickArea handleClick={editArticle}>
@@ -70,7 +70,7 @@ const ArticleItem = (props: Props) => {
             </div>
           </OakClickArea>
         </div>
-        <OakViewer>{toHtml(props.article.description)}</OakViewer>
+        <OakViewer>{BlockService.toHtml(props.article.description)}</OakViewer>
       </div>
     </>
   );
